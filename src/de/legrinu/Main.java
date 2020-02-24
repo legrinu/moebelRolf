@@ -11,14 +11,14 @@ public class Main {
     HashMap<Integer, Furniture> hardwareStore = new HashMap<>();
 
     public static void main(String[] args) {
-        Furniture kitchenChair = new Furniture("Küchenstuhl", new Area("Küche"),
+        Furniture kitchen_Chair = new Furniture("Küchenstuhl", new Area("Küche"),
                 new Category("Sitzmöbel", 0.1), 49.99, 5);
 
-        System.out.println(kitchenChair.getOriginalPrice());
-        System.out.println(kitchenChair.getDiscountPrice());
-        System.out.println(kitchenChair.getOriginalStockPrice());
-        kitchenChair.setStock(kitchenChair.getStock() - 2);
-        System.out.println(kitchenChair.getStock());
-        System.out.println(kitchenChair.getOriginalStockPrice());
+        System.out.println(kitchen_Chair.getOriginalPrice());
+        System.out.println(kitchen_Chair.getDiscountPrice());
+        System.out.println(kitchen_Chair.getOriginalStockPrice());
+        kitchen_Chair.setStock(kitchen_Chair.getStock() - 2);
+        System.out.println(kitchen_Chair.getStock());
+        System.out.println(kitchen_Chair.getOriginalStockPrice());
     }
 }

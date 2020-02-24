@@ -1,5 +1,7 @@
 package de.legrinu.classes;
 
+import de.legrinu.Utils.MathUtils;
+
 public class Furniture {
 
     private String name;
@@ -29,16 +31,22 @@ public class Furniture {
     }
 
     public double getDiscountPrice(){
-        return this.originalPrice * (1 - this.getArea().getDiscount()) * (1 - this.getCategory().getDiscount());
+        double discountPrice = this.originalPrice * (1 - this.getArea().getDiscount()) * (1 - this.getCategory().getDiscount());
+        double round = MathUtils.round(discountPrice, 2);
+        return round;
         //TODO:Gelten beide Rabatte oder nur der größere?
     }
 
     public double getDiscountStockPrice(){
-        return this.getDiscountPrice() * this.getStock();
+        double discountStockPrice = this.originalPrice * this.getStock();
+        double round = MathUtils.round(discountStockPrice, 2);
+        return round;
     }
 
     public double getOriginalStockPrice(){
-        return this.getOriginalPrice() * this.getStock();
+        double stockPrice = this.originalPrice * this.getStock();
+        double round = MathUtils.round(stockPrice, 2);
+        return round;
     }
 
     public int getStock() {
