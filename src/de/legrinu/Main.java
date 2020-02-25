@@ -158,7 +158,7 @@ public class Main {
         return false;
     }
 
-    public static boolean readJSON(){
+    public static boolean readJSON(){  //TODO: Read to HashMap
         File stock = new File(System.getProperty("user.dir") + File.separator + "stock.json");
 
         if(!stock.exists()){
