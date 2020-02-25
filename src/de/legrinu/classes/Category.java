@@ -2,7 +2,7 @@ package de.legrinu.classes;
 
 public class Category extends Groups{
 
-    String category;
+    private String category;
 
     public Category(String pCategory) {
         this.category = pCategory;

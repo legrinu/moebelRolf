@@ -72,4 +72,12 @@ public class Furniture {
     public void setOriginalPrice(double price) {
         this.originalPrice = price;
     }
+
+    public void reduceStock(int reduceBy){
+        this.setStock(this.getStock() - reduceBy);
+    }
+
+    public String getName() {
+        return name;
+    }
 }

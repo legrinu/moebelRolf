@@ -1,5 +1,8 @@
 package de.legrinu.classes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class Groups {
 
     private double discount;     //Der Prozentsatz, der abgezogen wird. Bei -19% wird 19% angeben und in Furniture verrechnet, da Rabatt
@@ -20,6 +23,5 @@ public abstract class Groups {
     public void setDiscount(double discount) {
         this.discount = discount;
     }
-
 
 }
