@@ -12,4 +12,12 @@ public class Category extends Groups{
         super(pDiscount);
         this.category = pCategory;
     }
+
+    public String getCategoryName() {
+        return category;
+    }
+
+    public void setCategoryName(String category) {
+        this.category = category;
+    }
 }

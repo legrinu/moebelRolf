@@ -27,4 +27,12 @@ public class Area extends Groups{
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
+
+    public String getAreaName() {
+        return area;
+    }
+
+    public void setAreaName(String area) {
+        this.area = area;
+    }
 }

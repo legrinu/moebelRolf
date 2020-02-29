@@ -1,14 +1,10 @@
 package de.legrinu;
 
-import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
 import de.legrinu.classes.Area;
 import de.legrinu.classes.Category;
 import de.legrinu.classes.Furniture;
+import de.legrinu.datamanagement.FileManager;
 
-import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,35 +15,45 @@ public class Main {
     static ArrayList<Area> areaList = new ArrayList<>();
     static ArrayList<Category> categoryList = new ArrayList<>();
 
-    public static void main(String[] args) { //SUper duper DebugSPAß
-        Furniture kitchen_Chair = new Furniture("Küchenstuhl", new Area("Küche"),  //Debugspaß
-                new Category("Sitzmöbel", 0.1), 49.99, 5);
-        Furniture basinga = new Furniture("Küchenstuhl", new Area("Küche"),  //Debugspaß
-                new Category("Sitzmöbel", 0.1), 99.99, 2);
-        Furniture bull = new Furniture("Küchenstuhl", new Area("Küche"),  //Debugspaß
-                new Category("Sitzmöbel", 0.1), 9.99, 5);
-        Furniture lul = new Furniture("Küchenstuhl", new Area("Küche"),  //Debugspaß
-                new Category("Sitzmöbel", 0.1), 44.99, 5);
+    public static void main(String[] args) {
+        FileManager.readFromFiles();
+        debugSpaß(); //Hier alle auszuführenden Funktionen eintragen
+        FileManager.saveFiles();
+    }
+
+    static void debugSpaß(){ //Super duper DebugSPAß
+        Area kitchen = new Area("Kueche");
+        Category sitzmöbel = new Category("Sitzmoebel", 0.1);
+
+        Area baum = new Area("baum");
+        Category hund = new Category("hund");
+
+        Furniture kitchen_Chair = new Furniture("KitchenChair", baum,  //Debugspaß
+                hund, 49.99, 5);
+        Furniture basinga = new Furniture("basinga", kitchen,  //Debugspaß
+                sitzmöbel, 99.99, 2);
+        Furniture bull = new Furniture("bull", kitchen,  //Debugspaß
+                sitzmöbel, 9.99, 5);
+        Furniture lul = new Furniture("lul", kitchen,  //Debugspaß
+                sitzmöbel, 44.99, 5);
 
         hardwareStore.put(1, kitchen_Chair);
         hardwareStore.put(2, basinga);
         hardwareStore.put(3, bull);
         hardwareStore.put(4, lul);
 
-        System.out.println(readJSON());
+        areaList.add(kitchen);
+        areaList.add(baum);
 
-        for(Map.Entry<Integer, Furniture> entry : hardwareStore.entrySet()){
-            Furniture furniture = entry.getValue();
-            System.out.println(furniture.getName());
-        }
+        categoryList.add(hund);
+        categoryList.add(sitzmöbel);
 
+        FileManager.saveFiles();
+        FileManager.readFromFiles();
 
- /*       System.out.println(kitchen_Chair.getOriginalPrice());
-        System.out.println(kitchen_Chair.getDiscountPrice());
-        System.out.println(kitchen_Chair.getOriginalStockPrice());
-        kitchen_Chair.setStock(kitchen_Chair.getStock() - 2);
-        System.out.println(kitchen_Chair.getStock());
-        System.out.println(kitchen_Chair.getOriginalStockPrice()); */
+        hardwareStore.get(2).getArea().setDiscount(0.3);
+        System.out.println(hardwareStore.get(3).getArea().getDiscount());
+
     }
 
     public static double totalStockPrice(){
@@ -129,54 +135,27 @@ public class Main {
         return returner;
     }
 
-    public static void generateAreaList(){
-        areaList.add(new Area("Kitchen"));
-        areaList.add(new Area("Living"));
-        areaList.add(new Area("Spleeping"));
-        areaList.add(new Area("ETC"));
+    public static HashMap<Integer, Furniture> getHardwareStore() {
+        return hardwareStore;
     }
 
-    public static boolean writeJSON(){
-
-        File stock = new File(System.getProperty("user.dir") + File.separator + "stock.json");
-
-        if(!stock.exists()){
-            try {
-                stock.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        try {
-            Gson gson = new Gson();
-            gson.toJson(hardwareStore, new FileWriter(stock));
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return false;
+    public static void setHardwareStore(HashMap<Integer, Furniture> hardwareStore) {
+        Main.hardwareStore = hardwareStore;
     }
 
-    public static boolean readJSON(){  //TODO: Read to HashMap
-        File stock = new File(System.getProperty("user.dir") + File.separator + "stock.json");
-
-        if(!stock.exists()){
-            try {
-                stock.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        try {
-            Gson gson = new Gson();
-            Furniture fur = gson.fromJson(new FileReader(stock), Furniture.class);
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return false;
+    public static ArrayList<Area> getAreaList() {
+        return areaList;
     }
 
+    public static void setAreaList(ArrayList<Area> areaList) {
+        Main.areaList = areaList;
+    }
+
+    public static ArrayList<Category> getCategoryList() {
+        return categoryList;
+    }
+
+    public static void setCategoryList(ArrayList<Category> categoryList) {
+        Main.categoryList = categoryList;
+    }
 }
