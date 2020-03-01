@@ -4,6 +4,7 @@ import de.legrinu.classes.Area;
 import de.legrinu.classes.Category;
 import de.legrinu.classes.Furniture;
 import de.legrinu.datamanagement.FileManager;
+import de.legrinu.gui.MainFrame;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,11 +15,14 @@ public class Main {
     static HashMap<Integer, Furniture> hardwareStore = new HashMap<>();
     static ArrayList<Area> areaList = new ArrayList<>();
     static ArrayList<Category> categoryList = new ArrayList<>();
+    private static MainFrame mainFrame;
 
     public static void main(String[] args) {
-        FileManager.readFromFiles();
-        debugSpaß(); //Hier alle auszuführenden Funktionen eintragen
-        FileManager.saveFiles();
+        //FileManager.readFromFiles();
+        debugSpaß();
+        mainFrame = new MainFrame();
+        mainFrame.setVisible(true);//Hier alle auszuführenden Funktionen eintragen
+        //FileManager.saveFiles();
     }
 
     static void debugSpaß(){ //Super duper DebugSPAß
@@ -48,11 +52,6 @@ public class Main {
         categoryList.add(hund);
         categoryList.add(sitzmöbel);
 
-        FileManager.saveFiles();
-        FileManager.readFromFiles();
-
-        hardwareStore.get(2).getArea().setDiscount(0.3);
-        System.out.println(hardwareStore.get(3).getArea().getDiscount());
 
     }
 
@@ -157,5 +156,13 @@ public class Main {
 
     public static void setCategoryList(ArrayList<Category> categoryList) {
         Main.categoryList = categoryList;
+    }
+
+    public static MainFrame getMainFrame() {
+        return mainFrame;
+    }
+
+    public static void setMainFrame(MainFrame mainFrame) {
+        Main.mainFrame = mainFrame;
     }
 }
