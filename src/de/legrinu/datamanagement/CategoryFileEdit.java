@@ -10,9 +10,10 @@ import java.util.ArrayList;
 public class CategoryFileEdit {
 
     private static File categoryFile = FileManager.getCategoryFile();
-    private static ArrayList<Category> categoryList = Main.getCategoryList();
+    private static ArrayList<Category> categoryList;
 
     public static void saveCategoryList(){
+        categoryList = Main.getCategoryList();
         ArrayList<String> categoryToStringList = new ArrayList<>();
         FileManager.checkFile(categoryFile);
 

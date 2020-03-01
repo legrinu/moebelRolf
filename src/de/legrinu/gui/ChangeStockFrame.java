@@ -10,12 +10,11 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class ChangeStockFrame extends JFrame implements ActionListener {
+public class ChangeStockFrame extends JDialog implements ActionListener {
 
     private JLabel label;
     private MainFrame mainFrame;
     private JButton change;
-    private JComboBox comboBox;
     private JPanel topPanel;
     private JPanel midPanel;
     private JTextField input;
@@ -24,8 +23,6 @@ public class ChangeStockFrame extends JFrame implements ActionListener {
     private ArrayList<String> furnitureArrayList;
 
     public ChangeStockFrame(){
-        mainFrame = Main.getMainFrame();
-        comboBox = mainFrame.getComboBox();
         label = new JLabel();
         change = new JButton();
         topPanel = new JPanel();
@@ -49,12 +46,10 @@ public class ChangeStockFrame extends JFrame implements ActionListener {
 
         label.setText("Change Stock");
 
-        this.setLayout(new BorderLayout());
         masterPanel.setLayout(new BorderLayout());
         topPanel.setLayout(new BorderLayout());
         midPanel.setLayout(new BorderLayout());
 
-        topPanel.add(comboBox, new BorderLayout().PAGE_START);
         topPanel.add(label, BorderLayout.PAGE_END);
 
         midPanel.add(furnitureBox, BorderLayout.LINE_START);
@@ -67,7 +62,7 @@ public class ChangeStockFrame extends JFrame implements ActionListener {
         this.setSize(512, 512);
         this.setTitle("HSMS by BACreations");
         this.setMinimumSize(new Dimension(512, 512));
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
         this.add(masterPanel);
         this.pack();
         this.setLocationRelativeTo(null);
@@ -88,6 +83,5 @@ public class ChangeStockFrame extends JFrame implements ActionListener {
                 }
             }
         }
-
     }
 }

@@ -18,9 +18,10 @@ Nummer;Name;Area;Category;Price;Stock
 public class StockFileEdit {
 
     private static File stockFile = FileManager.getStockFile();
-    private static HashMap<Integer, Furniture> hardwareStore = Main.getHardwareStore();
+    private static HashMap<Integer, Furniture> hardwareStore;
 
     public static void saveStockHashMap(){
+        hardwareStore = Main.getHardwareStore();
         ArrayList<String> furnitureArray = new ArrayList<>();
         FileManager.checkFile(stockFile);
 

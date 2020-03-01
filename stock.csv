@@ -1,4 +1,12 @@
-1;KitchenChair;baum;hund;49.99;5
-2;basinga;Kueche;Sitzmoebel;99.99;2
-3;bull;Kueche;Sitzmoebel;9.99;5
-4;lul;Kueche;Sitzmoebel;44.99;5
+1;Kitchen Chair;Kitchen;Seating;49.99;1
+2;Kitchen Table;Kitchen;Table;119.99;1
+3;Kitchen Shelf;Kitchen;Storage;29.99;1
+4;Wing Chair;Living;Seating;129.99;1
+5;Couch Table;Living;Table;99.99;1
+6;TV Couch;Living;Seating;399.99;1
+7;Side Table;Sleeping;Storage;49.99;1
+8;Double Bed;Sleeping;Lounging;319.99;1
+9;Wardrobe;Sleeping;Storage;299.99;1
+10;Office Table;Other;Table;199.99;1
+11;Dining Table;Other;Table;169.99;1
+12;Balcony Couch;Other;Lounging;89.99;1

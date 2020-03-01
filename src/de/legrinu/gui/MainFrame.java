@@ -1,5 +1,7 @@
 package de.legrinu.gui;
 
+import de.legrinu.datamanagement.FileManager;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -14,7 +16,8 @@ public class MainFrame extends JFrame implements ActionListener {
 
     public MainFrame(){
 
-        activities = new String[]{"Change Stock", "Change Price", "Get Total Price", "Get Furniture for specified price"};
+        activities = new String[]{"Get Information", "Change Stock", "Change Price", "Get Total Price", "Set Discount",
+                "Get Furniture for specified price"};
         comboBox = new JComboBox(activities);
         panel = new JPanel();
         label = new JLabel();
@@ -26,11 +29,16 @@ public class MainFrame extends JFrame implements ActionListener {
         panel.add(comboBox);
         panel.add(label);
 
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                FileManager.saveFiles();
+                System.exit(0);
+            }});
 
         this.setSize(512, 512);
         this.setTitle("HSMS by BACreations");
         this.setMinimumSize(new Dimension(512, 512));
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.add(panel);
         this.pack();
         this.setLocationRelativeTo(null);
@@ -45,23 +53,27 @@ public class MainFrame extends JFrame implements ActionListener {
             switch(selectedItem){
                 case "Change Stock":
                     ChangeStockFrame changeStockFrame = new ChangeStockFrame();
-                    this.setVisible(false);
                     changeStockFrame.setVisible(true);
                     break;
                 case "Change Price":
                     ChangePriceFrame changePriceFrame = new ChangePriceFrame();
-                    this.setVisible(false);
                     changePriceFrame.setVisible(true);
                     break;
                 case "Get Total Price":
                     TotalPriceFrame totalPriceFrame = new TotalPriceFrame();
-                    this.setVisible(false);
                     totalPriceFrame.setVisible(true);
                     break;
                 case "Get Furniture for specified price":
                     GetForMoneyFrame getForMoneyFrame = new GetForMoneyFrame();
-                    this.setVisible(false);
                     getForMoneyFrame.setVisible(true);
+                    break;
+                case "Get Information":
+                    GetInformationFrame getInformationFrame = new GetInformationFrame();
+                    getInformationFrame.setVisible(true);
+                    break;
+                case "Set Discount":
+                    SetDisountFrame setDisountFrame = new SetDisountFrame();
+                    setDisountFrame.setVisible(true);
                     break;
                 default:
                     label.setText("Some serious issues happened. Please contact your local IT guy.");

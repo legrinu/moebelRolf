@@ -14,9 +14,10 @@ Name;Discount
 public class AreaFileEdit {
 
     private static File areaFile = FileManager.getAreaFile();
-    private static ArrayList<Area> areaList = Main.getAreaList();
+    private static ArrayList<Area> areaList;
 
     public static void saveAreaList(){
+        areaList = Main.getAreaList();
         ArrayList<String> areaToStringList = new ArrayList<>();
 
         FileManager.checkFile(areaFile);

@@ -18,8 +18,8 @@ public class Main {
     private static MainFrame mainFrame;
 
     public static void main(String[] args) {
-        //FileManager.readFromFiles();
-        debugSpaß();
+        FileManager.readFromFiles();
+        //debugSpaß();
         mainFrame = new MainFrame();
         mainFrame.setVisible(true);//Hier alle auszuführenden Funktionen eintragen
         //FileManager.saveFiles();
@@ -51,8 +51,6 @@ public class Main {
 
         categoryList.add(hund);
         categoryList.add(sitzmöbel);
-
-
     }
 
     public static double totalStockPrice(){
