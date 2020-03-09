@@ -1,5 +1,6 @@
 package de.legrinu.datamanagement;
 
+import de.legrinu.HardwareStore;
 import de.legrinu.Main;
 import de.legrinu.classes.Area;
 
@@ -15,9 +16,10 @@ public class AreaFileEdit {
 
     private static File areaFile = FileManager.getAreaFile();
     private static ArrayList<Area> areaList;
+    private static HardwareStore hardwareStore = FileManager.getHardwareStore();
 
-    public static void saveAreaList(){
-        areaList = Main.getAreaList();
+    public static void saveAreaList(){ 
+        areaList = hardwareStore.getAreaList();
         ArrayList<String> areaToStringList = new ArrayList<>();
 
         FileManager.checkFile(areaFile);
@@ -46,7 +48,7 @@ public class AreaFileEdit {
 
     public static void setAreaListFromFile(){
         ArrayList<Area> fromFile = new ArrayList<>();
-        Main.setAreaList(null);
+        hardwareStore.setAreaList(null);
 
         FileManager.checkFile(areaFile);
 
@@ -85,11 +87,11 @@ public class AreaFileEdit {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Main.setAreaList(fromFile);
+        hardwareStore.setAreaList(fromFile);
     }
 
     public static Area getAreaFromString(String pName){
-        for(Area areaFromList : Main.getAreaList()){
+        for(Area areaFromList : hardwareStore.getAreaList()){
             if(areaFromList.getAreaName().contains(pName)){
                 return areaFromList;
             }

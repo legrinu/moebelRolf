@@ -2,7 +2,7 @@ package de.legrinu.classes;
 
 import de.legrinu.Utils.MathUtils;
 
-public class Furniture {
+public class Furniture implements Comparable{
 
     private String name;
     private Area area;
@@ -73,11 +73,14 @@ public class Furniture {
         this.originalPrice = price;
     }
 
-    public void reduceStock(int reduceBy){
-        this.setStock(this.getStock() - reduceBy);
-    }
-
     public String getName() {
         return name;
+    }
+
+    //Used for sorting
+    @Override
+    public int compareTo(Object o) {
+        Furniture other = (Furniture) o;
+        return Double.compare(this.getDiscountPrice(),other.getDiscountPrice());
     }
 }

@@ -1,5 +1,8 @@
 package de.legrinu.datamanagement;
 
+import de.legrinu.HardwareStore;
+import de.legrinu.Main;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -8,6 +11,7 @@ public class FileManager {
     private static File stock;
     private static File area;
     private static File category;
+    private static HardwareStore hardwareStore = Main.getHardwareStore();
 
     public static File getStockFile(){
         return stock = new File(System.getProperty("user.dir") + File.separator + "stock.csv");
@@ -41,6 +45,10 @@ public class FileManager {
         AreaFileEdit.setAreaListFromFile();
         CategoryFileEdit.setCategoryListFromFile();
         StockFileEdit.setHardWareStoreFromFile();
+    }
+
+    public static HardwareStore getHardwareStore(){
+        return hardwareStore;
     }
 
 }

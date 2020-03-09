@@ -1,6 +1,6 @@
 package de.legrinu.gui;
 
-import de.legrinu.Main;
+import de.legrinu.HardwareStore;
 import de.legrinu.classes.Area;
 import de.legrinu.classes.Category;
 
@@ -23,6 +23,7 @@ public class TotalPriceFrame extends JDialog implements ActionListener {
     private JPanel masterPanel;
     private ArrayList<String> areaList;
     private ArrayList<String> categoryList;
+    private HardwareStore hardwareStore = MainFrame.getHardwareStore();
 
     public TotalPriceFrame(){
         label = new JLabel();
@@ -33,10 +34,10 @@ public class TotalPriceFrame extends JDialog implements ActionListener {
         areaList = new ArrayList<String>();
         categoryList = new ArrayList<String>();
 
-        for(Area area : Main.getAreaList()){
+        for(Area area : hardwareStore.getAreaList()){
             areaList.add(area.getAreaName());
         }
-        for(Category category : Main.getCategoryList()){
+        for(Category category : hardwareStore.getCategoryList()){
             categoryList.add(category.getCategoryName());
         }
 
@@ -86,22 +87,22 @@ public class TotalPriceFrame extends JDialog implements ActionListener {
             if (selectedChooseItem.equals("Area")) {
                 String selectedAreaItem = (String) areaContentBox.getSelectedItem();
 
-                for(Area area : Main.getAreaList()){
+                for(Area area : hardwareStore.getAreaList()){
                     if(area.getAreaName().contains(selectedAreaItem)){
-                        label.setText("Total area price of area " + area.getAreaName() + ": " + Main.totalAreaPrice(area));
+                        label.setText("Total area price of area " + area.getAreaName() + ": " + hardwareStore.totalAreaPrice(area));
                     }
                 }
             } else if (selectedChooseItem.equals("Category")) {
                 String selectedCategoryItem = (String) categoryContentBox.getSelectedItem();
 
-                for(Category category : Main.getCategoryList()){
+                for(Category category : hardwareStore.getCategoryList()){
                     if(category.getCategoryName().contains(selectedCategoryItem)){
                         label.setText("Total area price of area " + category.getCategoryName() + ": " +
-                                Main.totalCategoryPrice(category));
+                                hardwareStore.totalCategoryPrice(category));
                     }
                 }
             } else {
-                label.setText("Total stock price: " + Main.totalStockPrice());
+                label.setText("Total stock price: " + hardwareStore.totalStockPrice());
             }
         }
     }

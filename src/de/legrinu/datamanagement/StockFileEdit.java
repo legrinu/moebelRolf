@@ -1,6 +1,6 @@
 package de.legrinu.datamanagement;
 
-import de.legrinu.Main;
+import de.legrinu.HardwareStore;
 import de.legrinu.classes.Area;
 import de.legrinu.classes.Category;
 import de.legrinu.classes.Furniture;
@@ -18,14 +18,15 @@ Nummer;Name;Area;Category;Price;Stock
 public class StockFileEdit {
 
     private static File stockFile = FileManager.getStockFile();
-    private static HashMap<Integer, Furniture> hardwareStore;
+    private static HashMap<Integer, Furniture> hardwareStoreMap;
+    private static HardwareStore hardwareStore = FileManager.getHardwareStore();
 
     public static void saveStockHashMap(){
-        hardwareStore = Main.getHardwareStore();
+        hardwareStoreMap = hardwareStore.getHardwareStoreMap();
         ArrayList<String> furnitureArray = new ArrayList<>();
         FileManager.checkFile(stockFile);
 
-        for (Map.Entry<Integer, Furniture> entry : hardwareStore.entrySet()) {
+        for (Map.Entry<Integer, Furniture> entry : hardwareStoreMap.entrySet()) {
             Furniture furnitureValue = entry.getValue();
             String furnitureString = entry.getKey() + ";" + furnitureValue.getName() + ";" + furnitureValue.getArea().getAreaName()
                     + ";" + furnitureValue.getCategory().getCategoryName() + ";" + furnitureValue.getOriginalPrice()
@@ -52,7 +53,7 @@ public class StockFileEdit {
 
     public static void setHardWareStoreFromFile(){
         HashMap<Integer, Furniture> fromFile = new HashMap<>();
-        Main.setHardwareStore(null);
+        hardwareStore.setHardwareStore(null);
         FileManager.checkFile(stockFile);
 
         try {
@@ -90,6 +91,6 @@ public class StockFileEdit {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Main.setHardwareStore(fromFile);
+        hardwareStore.setHardwareStore(fromFile);
     }
 }

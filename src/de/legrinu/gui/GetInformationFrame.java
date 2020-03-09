@@ -1,6 +1,6 @@
 package de.legrinu.gui;
 
-import de.legrinu.Main;
+import de.legrinu.HardwareStore;
 import de.legrinu.classes.Furniture;
 
 import javax.swing.*;
@@ -20,6 +20,7 @@ public class GetInformationFrame extends JDialog implements ActionListener {
     private JComboBox furnitureComboBox;
     private JPanel masterPanel;
     private ArrayList<String> furnitureList;
+    private HardwareStore hardwareStore = MainFrame.getHardwareStore();
 
     public GetInformationFrame(){
         label = new JLabel();
@@ -29,7 +30,7 @@ public class GetInformationFrame extends JDialog implements ActionListener {
         masterPanel = new JPanel();
         furnitureList = new ArrayList<String>();
 
-        for(Map.Entry<Integer, Furniture> entry : Main.getHardwareStore().entrySet()){
+        for(Map.Entry<Integer, Furniture> entry : hardwareStore.getHardwareStoreMap().entrySet()){
             furnitureList.add(entry.getValue().getName());
         }
 
@@ -41,7 +42,7 @@ public class GetInformationFrame extends JDialog implements ActionListener {
 
         label.setText("Get Informationen of...");
 
-        masterPanel.setLayout(new BorderLayout());
+        masterPanel.setLayout(new BorderLayout());  //Layout Stuff
         topPanel.setLayout(new BorderLayout());
         midPanel.setLayout(new BorderLayout());
 
@@ -67,7 +68,7 @@ public class GetInformationFrame extends JDialog implements ActionListener {
         if (actionEvent.getSource() == ok) {
             String furnitureName = (String) furnitureComboBox.getSelectedItem();
 
-            for (Map.Entry<Integer, Furniture> entry : Main.getHardwareStore().entrySet()) {
+            for (Map.Entry<Integer, Furniture> entry : hardwareStore.getHardwareStoreMap().entrySet()) {
                 Furniture furniture = entry.getValue();
                 if (furniture.getName().contains(furnitureName)) {
                     label.setText("Name: " + furniture.getName() + " | Price (Without Discount): " + furniture.getOriginalPrice()

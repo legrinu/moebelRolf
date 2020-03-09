@@ -1,6 +1,6 @@
 package de.legrinu.gui;
 
-import de.legrinu.Main;
+import de.legrinu.HardwareStore;
 import de.legrinu.classes.Furniture;
 
 import javax.swing.*;
@@ -21,6 +21,7 @@ public class GetForMoneyFrame extends JFrame implements ActionListener {
     private JComboBox furnitureBox;
     private JPanel masterPanel;
     private ArrayList<String> furnitureArrayList;
+    private HardwareStore hardwareStore = MainFrame.getHardwareStore();
 
     public GetForMoneyFrame(){
         label = new JLabel();
@@ -31,7 +32,7 @@ public class GetForMoneyFrame extends JFrame implements ActionListener {
         input = new JTextField();
         furnitureArrayList = new ArrayList<>();
 
-        for(Map.Entry<Integer, Furniture> entry : Main.getHardwareStore().entrySet()){
+        for(Map.Entry<Integer, Furniture> entry : hardwareStore.getHardwareStoreMap().entrySet()){
             furnitureArrayList.add(entry.getValue().getName());
         }
 

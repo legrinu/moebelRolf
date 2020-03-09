@@ -1,5 +1,7 @@
 package de.legrinu.gui;
 
+import de.legrinu.HardwareStore;
+import de.legrinu.Main;
 import de.legrinu.datamanagement.FileManager;
 
 import javax.swing.*;
@@ -13,6 +15,7 @@ public class MainFrame extends JFrame implements ActionListener {
     private JPanel panel;
     private String[] activities;
     private JLabel label;
+    private static HardwareStore hardwareStore = Main.getHardwareStore();
 
     public MainFrame(){
 
@@ -83,6 +86,9 @@ public class MainFrame extends JFrame implements ActionListener {
 
     public JComboBox getComboBox() {
         return comboBox;
+    }
+    public static HardwareStore getHardwareStore() {
+        return hardwareStore;
     }
 
     public void setComboBox(JComboBox comboBox) {

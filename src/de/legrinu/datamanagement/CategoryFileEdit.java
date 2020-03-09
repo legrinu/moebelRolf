@@ -1,7 +1,6 @@
 package de.legrinu.datamanagement;
 
-import de.legrinu.Main;
-import de.legrinu.classes.Area;
+import de.legrinu.HardwareStore;
 import de.legrinu.classes.Category;
 
 import java.io.*;
@@ -11,9 +10,10 @@ public class CategoryFileEdit {
 
     private static File categoryFile = FileManager.getCategoryFile();
     private static ArrayList<Category> categoryList;
+    private static HardwareStore hardwareStore = FileManager.getHardwareStore();
 
     public static void saveCategoryList(){
-        categoryList = Main.getCategoryList();
+        categoryList = hardwareStore.getCategoryList();
         ArrayList<String> categoryToStringList = new ArrayList<>();
         FileManager.checkFile(categoryFile);
 
@@ -41,7 +41,7 @@ public class CategoryFileEdit {
 
     public static void setCategoryListFromFile(){
         ArrayList<Category> fromFile = new ArrayList<>();
-        Main.setCategoryList(null);
+        hardwareStore.setCategoryList(null);
         FileManager.checkFile(categoryFile);
 
         try {
@@ -78,11 +78,11 @@ public class CategoryFileEdit {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Main.setCategoryList(fromFile);
+        hardwareStore.setCategoryList(fromFile);
     }
 
     public static Category getCategoryFromString(String pName){
-        for(Category categoryFromList : Main.getCategoryList()){
+        for(Category categoryFromList : hardwareStore.getCategoryList()){
             if(categoryFromList.getCategoryName().contains(pName)){
                 return categoryFromList;
             }

@@ -1,6 +1,6 @@
 package de.legrinu.gui;
 
-import de.legrinu.Main;
+import de.legrinu.HardwareStore;
 import de.legrinu.classes.Furniture;
 
 import javax.swing.*;
@@ -21,6 +21,7 @@ public class ChangePriceFrame extends JDialog implements ActionListener {
     private JComboBox furnitureBox;
     private JPanel masterPanel;
     private ArrayList<String> furnitureArrayList;
+    private HardwareStore hardwareStore = MainFrame.getHardwareStore();
 
     public ChangePriceFrame(){
         label = new JLabel();
@@ -31,7 +32,7 @@ public class ChangePriceFrame extends JDialog implements ActionListener {
         input = new JTextField();
         furnitureArrayList = new ArrayList<>();
 
-        for(Map.Entry<Integer, Furniture> entry : Main.getHardwareStore().entrySet()){
+        for(Map.Entry<Integer, Furniture> entry : hardwareStore.getHardwareStoreMap().entrySet()){
             furnitureArrayList.add(entry.getValue().getName());
         }
 
@@ -74,7 +75,7 @@ public class ChangePriceFrame extends JDialog implements ActionListener {
             String furnitureName = (String) furnitureBox.getSelectedItem();
             Double changeTo = Double.parseDouble(input.getText());
 
-            for(Map.Entry<Integer, Furniture> entry : Main.getHardwareStore().entrySet()){
+            for(Map.Entry<Integer, Furniture> entry : hardwareStore.getHardwareStoreMap().entrySet()){
                 Furniture furniture = entry.getValue();
                 if(furniture.getName().contains(furnitureName)){
                     furniture.setOriginalPrice(changeTo);
