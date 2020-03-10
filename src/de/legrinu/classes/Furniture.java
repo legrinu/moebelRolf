@@ -31,20 +31,26 @@ public class Furniture implements Comparable{
     }
 
     public double getDiscountPrice(){
-        double discountPrice = this.originalPrice * (1 - this.getArea().getDiscount()) * (1 - this.getCategory().getDiscount());
+        double discountPrice = this.getOriginalPrice();
+
+        if(this.getArea().getDiscount() >= this.getCategory().getDiscount()){
+            discountPrice = discountPrice * (1 - this.getArea().getDiscount());
+        }else if(this.getArea().getDiscount() > this.getCategory().getDiscount()){
+            discountPrice = discountPrice * (1 - this.getCategory().getDiscount());
+        }
+
         double round = MathUtils.round(discountPrice, 2);
         return round;
-        //TODO:Gelten beide Rabatte oder nur der größere?
     }
 
     public double getDiscountStockPrice(){
-        double discountStockPrice = this.originalPrice * this.getStock();
+        double discountStockPrice = this.getDiscountPrice() * this.getStock();
         double round = MathUtils.round(discountStockPrice, 2);
         return round;
     }
 
     public double getOriginalStockPrice(){
-        double stockPrice = this.originalPrice * this.getStock();
+        double stockPrice = this.getOriginalPrice() * this.getStock();
         double round = MathUtils.round(stockPrice, 2);
         return round;
     }

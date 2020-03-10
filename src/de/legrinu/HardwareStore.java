@@ -1,5 +1,6 @@
 package de.legrinu;
 
+import de.legrinu.Utils.MathUtils;
 import de.legrinu.classes.Area;
 import de.legrinu.classes.Category;
 import de.legrinu.classes.Furniture;
@@ -72,17 +73,16 @@ public class HardwareStore {
         }
 
         for(int i = 0; i < suggestionShoppingCartFurniture.size(); i++){
-            returnValue[i] = "Name: " + suggestionShoppingCartFurniture.get(i).getName() + " | Price: " + suggestionShoppingCartFurniture.get(i).getDiscountPrice();
+            returnValue[i] = "Name: " + suggestionShoppingCartFurniture.get(i).getName() + " | Price: "
+                    + suggestionShoppingCartFurniture.get(i).getDiscountPrice();
         }
 
-        System.out.println("Remaining price: " + suggestedArray[1]);
+        System.out.println("Remaining price: " + MathUtils.round((Double) suggestedArray[1], 2));
 
         return returnValue;
     }
 
     private Object[] suggestionShoppingCart(double pShoppingCartValue){
-        ArrayList<Furniture> suggestionShoppingCart = new ArrayList<Furniture>();
-        double suggestionShoppingCartPrice = -1;
         double cheapestThingPrice;
         Furniture[] sortedProductArray = null;
 
@@ -114,7 +114,8 @@ public class HardwareStore {
                     double newRemainingAmount = pRemainingAmount - pSortedProductArray[i].getDiscountPrice();
                     ArrayList<Furniture> newSuggestionShoppingCart = (ArrayList<Furniture>)pTempSuggestion.clone();
                     newSuggestionShoppingCart.add(pSortedProductArray[i]);
-                    possibleShoppingCart.add(suggestionShoppingCart2(newSuggestionShoppingCart, newRemainingAmount, pSortedProductArray, pCheapestThingPrice, pSuggestionShoppingCartPrice));
+                    possibleShoppingCart.add(suggestionShoppingCart2(newSuggestionShoppingCart, newRemainingAmount,
+                            pSortedProductArray, pCheapestThingPrice, pSuggestionShoppingCartPrice));
                 }else{
                     //Cancel, array is sorted
                     i = pSortedProductArray.length;
@@ -126,7 +127,7 @@ public class HardwareStore {
             for(Object[] currentShoppingCart : possibleShoppingCart){
                 if(currentShoppingCart[0] != null) {
                     double currentValueShoppingCart = (double) currentShoppingCart[1];
-                    if (bestShoppingCartValue < currentValueShoppingCart) {
+                    if (bestShoppingCartValue > currentValueShoppingCart || bestShoppingCartValue == -1) {
                         bestShoppingCart = currentShoppingCart;
                         bestShoppingCartValue = currentValueShoppingCart;
                     }
@@ -145,9 +146,6 @@ public class HardwareStore {
                 }
                 if(!duplicateProducts.isEmpty()) {
                     Set<Furniture> duplicateProductsSet = new HashSet<Furniture>(duplicateProducts);
-                    //duplicateProducts.clear();
-                    //duplicateProducts.addAll(duplicateProductsSet);
-                    //TODO: Muss geprüft werden ob das klappt
                     Furniture tempDuplicateObject;
                     for (Furniture duplicateProduct : duplicateProductsSet) {
                         tempDuplicateObject = duplicateProduct;
@@ -155,7 +153,6 @@ public class HardwareStore {
                             duplicateProducts.remove(tempDuplicateObject);
                         }
                     }
-                    //TODO Prüfen ob nicht +1 für doppelte produkte gerechnet werden muss
                     for (Furniture duplicateProduct : duplicateProductsSet) {
                         int counter = 0;
                         for (Furniture everyProduct : pTempSuggestion) {
@@ -163,7 +160,7 @@ public class HardwareStore {
                                 counter += 1;
                             }
                         }
-                        if (duplicateProduct.getStock() < counter) {
+                        if (duplicateProduct.getStock() <= counter) {
                             return new Object[]{null, null};
                         }
                     }

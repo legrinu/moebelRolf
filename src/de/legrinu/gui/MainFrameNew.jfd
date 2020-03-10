@@ -1,0 +1,124 @@
+JFDML JFormDesigner: "7.0.1.0.272" Java: "11.0.5" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq {space :p:83:p, comp price_selected_area:::p::p, space ::56:x, comp price_selected_category:::p::p, space :p:37:p}, seq {space :p:17:p, comp scrollPane1:::p:137:p, par l {seq {space ::49:x, par l:::p {comp product_name::::176:x, comp product_area::l::176:x, seq l {comp product_stock::::170:x, space :::p, comp s_changer:::p::p}, seq l {comp discount_price:::::x, space :::p, comp dp_changer:::p::p}, seq l {comp original_price:::p::p, space :::x, comp op_changer:::p::p}}, space :p:59:p}, seq l {space :p:29:p, comp change_stock:::p::p, space s:::p, comp change_price:::p::p, space ::28:x}}}, seq l {comp footer:::p:217:p, space :::p, comp dateLabel::::215:x}}"
+			"$verticalGroup": "par l {seq l {space :p:22:p, par l {seq {comp product_name:::p::p, space :::p, comp product_area:::p::p, space s:::p, par l {comp original_price:::p::p, comp op_changer:::p::p}, space :::p, par b {comp discount_price::b:p::p, comp dp_changer::b:p::p}, space :::p, par b {comp product_stock::b:p::p, comp s_changer::b:p::p}, space :p:64:p, par t {comp change_stock:::p::p, comp change_price:::p::p}}, comp scrollPane1:::p:196:p}, space ::14:x, par b {comp price_selected_area::b:p::p, comp price_selected_category::b:p::p}, space s:::p, par l {comp footer:::p::p, comp dateLabel:::p::p}}}"
+		} ) {
+			name: "this"
+			"title": "HSMS by BACreations"
+			"defaultCloseOperation": 3
+			"iconImage": new com.jformdesigner.model.SwingIcon( 1, "C:\\Users\\legri\\Documents\\BauMarkt\\ressources\\BAC_transparent.png" )
+			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+				name: "scrollPane1"
+				add( new FormComponent( "javax.swing.JList" ) {
+					name: "product_list"
+					auxiliary() {
+						"JavaCodeGenerator.preCreateCode": "String[] stringArray = new String[Main.getHardwareStore().getHardwareStoreMap().size()];\n                    for(int i = 0; i < Main.getHardwareStore().getHardwareStoreMap().size(); i++){\n                            Furniture furniture = Main.getHardwareStore().getHardwareStoreMap().get(i+1);\n                            stringArray[i] = furniture.getName();\n                    }"
+						"JavaCodeGenerator.customCreateCode": "new JList(stringArray);"
+					}
+					addEvent( new FormEvent( "javax.swing.event.ListSelectionListener", "valueChanged", "product_listValueChanged", true ) )
+				} )
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "product_name"
+				"text": "Name"
+				"font": new java.awt.Font( "Segoe UI", 1, 12 )
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "product_area"
+				"text": "Area | Category"
+				"horizontalAlignment": 0
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "original_price"
+				"text": "Original Price: "
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "discount_price"
+				"text": "Discount Price: "
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "product_stock"
+				"text": "Stock: "
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "footer"
+				"text": "© BACreations"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "change_stock"
+				"text": "Change Stock"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "change_stockActionPerformed", true ) )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "change_price"
+				"text": "Change Price"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "change_priceActionPerformed", true ) )
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "price_selected_area"
+				"text": "Price of selected Area:"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "price_selected_category"
+				"text": "Price of selected Category: "
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "op_changer"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "dp_changer"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "s_changer"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "dateLabel"
+				"text": "Alea iacta est"
+				"horizontalAlignment": 4
+				auxiliary() {
+					"JavaCodeGenerator.postInitCode": "\n        dateLabel.setText(\"\" + java.time.LocalDate.now());"
+				}
+			} )
+			menuBar: new FormContainer( "javax.swing.JMenuBar", new FormLayoutManager( class javax.swing.JMenuBar ) ) {
+				name: "menuBar"
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "file"
+					"text": "File"
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "read"
+						"text": "Read"
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "write"
+						"text": "Write"
+					} )
+				} )
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "Area"
+					"text": "Area"
+					auxiliary() {
+						"JavaCodeGenerator.postInitCode": "for(de.legrinu.classes.Area area : Main.getHardwareStore().getAreaList()){\n            Area.add(new JCheckBoxMenuItem(area.getAreaName()));\n        }"
+					}
+				} )
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "Category"
+					"text": "Category"
+					auxiliary() {
+						"JavaCodeGenerator.postInitCode": "for(de.legrinu.classes.Category category : Main.getHardwareStore().getCategoryList()){\n            Category.add(new JCheckBoxMenuItem(category.getCategoryName()));\n        }"
+					}
+				} )
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "etc"
+					"text": "Etc."
+				} )
+			}
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 440, 350 )
+		} )
+	}
+}

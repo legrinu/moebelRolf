@@ -2,7 +2,6 @@ package de.legrinu.gui;
 
 import de.legrinu.HardwareStore;
 import de.legrinu.Main;
-import de.legrinu.datamanagement.FileManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,7 +34,7 @@ public class MainFrame extends JFrame implements ActionListener {
         this.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                FileManager.saveFiles();
+                Main.getFileManager().saveFiles();
                 System.exit(0);
             }});
 
@@ -67,8 +66,8 @@ public class MainFrame extends JFrame implements ActionListener {
                     totalPriceFrame.setVisible(true);
                     break;
                 case "Get Furniture for specified price":
-                    GetForMoneyFrame getForMoneyFrame = new GetForMoneyFrame();
-                    getForMoneyFrame.setVisible(true);
+                    SuggestedCartFrame suggestedCartFrame = new SuggestedCartFrame();
+                    suggestedCartFrame.setVisible(true);
                     break;
                 case "Get Information":
                     GetInformationFrame getInformationFrame = new GetInformationFrame();

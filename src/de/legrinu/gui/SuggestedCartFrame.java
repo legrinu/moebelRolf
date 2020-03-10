@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class GetForMoneyFrame extends JFrame implements ActionListener {
+public class SuggestedCartFrame extends JFrame implements ActionListener {
 
     private JLabel label;
     private MainFrame mainFrame;
@@ -23,7 +23,7 @@ public class GetForMoneyFrame extends JFrame implements ActionListener {
     private ArrayList<String> furnitureArrayList;
     private HardwareStore hardwareStore = MainFrame.getHardwareStore();
 
-    public GetForMoneyFrame(){
+    public SuggestedCartFrame(){
         label = new JLabel();
         change = new JButton();
         topPanel = new JPanel();
