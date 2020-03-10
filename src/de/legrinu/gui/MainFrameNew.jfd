@@ -60,7 +60,7 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "price_selected_area"
-				"text": "Price of selected Area:"
+				"text": "Price of selected Area: "
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "price_selected_category"
@@ -101,7 +101,7 @@ new FormModel {
 					name: "Area"
 					"text": "Area"
 					auxiliary() {
-						"JavaCodeGenerator.postInitCode": "for(de.legrinu.classes.Area area : Main.getHardwareStore().getAreaList()){\n            Area.add(new JCheckBoxMenuItem(area.getAreaName()));\n        }"
+						"JavaCodeGenerator.postInitCode": "        for(de.legrinu.classes.Area area : Main.getHardwareStore().getAreaList()){\n            JCheckBoxMenuItem checkBoxMenuItem = new JCheckBoxMenuItem(area.getAreaName());\n            checkBoxMenuItem.addActionListener(this::AreaActionPerformed);\n            Area.add(checkBoxMenuItem);\n        }"
 					}
 				} )
 				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {

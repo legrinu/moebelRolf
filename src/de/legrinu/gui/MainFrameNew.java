@@ -12,6 +12,7 @@ import de.legrinu.classes.Category;
 import de.legrinu.classes.Furniture;
 
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.Map;
 import javax.swing.*;
 import javax.swing.GroupLayout;
@@ -46,6 +47,28 @@ public class MainFrameNew extends JFrame {
         op_changer.setText(selectedFurniture.getOriginalPrice() + " €");
         dp_changer.setText(selectedFurniture.getDiscountPrice() + " €");
         s_changer.setText(selectedFurniture.getStock() + "");
+    }
+
+    private void AreaActionPerformed(ActionEvent e) { //TODO: Get it wo work
+        Object[] selectedItems = Area.getMenuComponents();
+        ArrayList<Area> selectedAreas = new ArrayList<>();
+        int totalValue = -1;
+
+        for(Object curObj : selectedItems){
+            if(e.getSource().equals(curObj)){
+                for(int i = 0; i < selectedItems.length; i++){
+
+                    for(Area areaToFind : Main.getHardwareStore().getAreaList()){
+                        JCheckBoxMenuItem test = (JCheckBoxMenuItem) selectedItems[i];
+                        if(areaToFind.getAreaName().contains(test.getText())){
+                            selectedAreas.add(areaToFind);
+                            totalValue += areaToFind.getTotalPrice();
+                        }
+                    }
+                }
+            }
+        }
+        price_selected_area.setText(price_selected_area.getText() + totalValue);
     }
 
     private void initComponents() {
@@ -106,8 +129,10 @@ public class MainFrameNew extends JFrame {
             //======== Area ========
             {
                 Area.setText("Area");
-                for(de.legrinu.classes.Area area : Main.getHardwareStore().getAreaList()){
-                            Area.add(new JCheckBoxMenuItem(area.getAreaName()));
+                        for(de.legrinu.classes.Area area : Main.getHardwareStore().getAreaList()){
+                            JCheckBoxMenuItem checkBoxMenuItem = new JCheckBoxMenuItem(area.getAreaName());
+                            checkBoxMenuItem.addActionListener(this::AreaActionPerformed);
+                            Area.add(checkBoxMenuItem);
                         }
             }
             menuBar.add(Area);
@@ -166,7 +191,7 @@ public class MainFrameNew extends JFrame {
         change_price.addActionListener(e -> change_priceActionPerformed(e));
 
         //---- price_selected_area ----
-        price_selected_area.setText("Price of selected Area:");
+        price_selected_area.setText("Price of selected Area: ");
 
         //---- price_selected_category ----
         price_selected_category.setText("Price of selected Category: ");
