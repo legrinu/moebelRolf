@@ -91,7 +91,7 @@ public class FileManager {
         ArrayList<String> areaToStringList = new ArrayList<>();
 
         for(Area area : areaList){
-            String areaToString = area.getAreaName() + ";" + area.getDiscount();
+            String areaToString = area.getAreaName() + ";" + area.getDiscount() + "\n";
             areaToStringList.add(areaToString);
         }
 
@@ -135,7 +135,7 @@ public class FileManager {
         ArrayList<String> categoryToStringList = new ArrayList<>();
 
         for(Category category : categoryList){
-            String categoryToString = category.getCategoryName() + ";" + category.getDiscount();
+            String categoryToString = category.getCategoryName() + ";" + category.getDiscount() + "\n";
             categoryToStringList.add(categoryToString);
         }
 
@@ -181,7 +181,7 @@ public class FileManager {
             Furniture furnitureValue = entry.getValue();
             String furnitureString = entry.getKey() + ";" + furnitureValue.getName() + ";" + furnitureValue.getArea().getAreaName()
                     + ";" + furnitureValue.getCategory().getCategoryName() + ";" + furnitureValue.getOriginalPrice()
-                    + ";" + furnitureValue.getStock();
+                    + ";" + furnitureValue.getStock() + "\n";
             furnitureArray.add(furnitureString);
         }
 

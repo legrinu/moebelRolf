@@ -11,6 +11,7 @@ import de.legrinu.Utils.MathUtils;
 import de.legrinu.classes.Area;
 import de.legrinu.classes.Category;
 import de.legrinu.classes.Furniture;
+import de.legrinu.datamanagement.FileManager;
 
 import java.awt.event.*;
 import java.lang.reflect.Array;
@@ -25,17 +26,23 @@ import javax.swing.GroupLayout;
 public class MainFrameNew extends JFrame {
 
     DefaultListModel listModel = new DefaultListModel();
+    Furniture currentActiveFurniture = null;
+    String selectedItemInList = null;
 
     public MainFrameNew() {
         initComponents();
     }
 
     private void change_stockActionPerformed(ActionEvent e) {
-        //TODO: Create JDialog
+        current_stock.setModel(new SpinnerNumberModel(currentActiveFurniture.getStock(), 0, 999, 1));
+        current_furniture.setText(currentActiveFurniture.getName());
+        change_stock_dialog.setVisible(true);
     }
 
     private void change_priceActionPerformed(ActionEvent e) {
-        //TODO: Create JDIalog
+        current_furniture_price.setText(currentActiveFurniture.getName());
+        price_to_change.setText(currentActiveFurniture.getOriginalPrice() + "");
+       change_price_dialog.setVisible(true);
     }
 
     private void createUIComponents() {
@@ -57,6 +64,9 @@ public class MainFrameNew extends JFrame {
                     op_changer.setText(selectedFurniture.getOriginalPrice() + " €");
                     dp_changer.setText(selectedFurniture.getDiscountPrice() + " €");
                     s_changer.setText(selectedFurniture.getStock() + "");
+
+                    currentActiveFurniture = selectedFurniture;
+                    selectedItemInList = selectedItemText;
                 }
             }
         }else{
@@ -197,6 +207,45 @@ public class MainFrameNew extends JFrame {
         }
     }
 
+    private void current_stockStateChanged(ChangeEvent e) {
+        int currentValue = (int) current_stock.getValue();
+        currentActiveFurniture.setStock(currentValue);
+
+        for(int i = 1; i < Main.getHardwareStore().getHardwareStoreMap().size()+1; i++) {
+            Furniture selectedFurniture = Main.getHardwareStore().getHardwareStoreMap().get(i);
+
+            if(selectedFurniture.getName().contains(selectedItemInList)) {
+                s_changer.setText(selectedFurniture.getStock() + "");
+            }
+        }
+    }
+
+    private void mainWindowClosing(WindowEvent e) {
+        Main.getFileManager().saveFiles();
+    }
+
+    private void price_to_changeActionPerformed(ActionEvent e) {
+        Double priceToChange = Double.parseDouble(price_to_change.getText());
+        currentActiveFurniture.setOriginalPrice(priceToChange);
+
+        for(int i = 1; i < Main.getHardwareStore().getHardwareStoreMap().size()+1; i++) {
+            Furniture selectedFurniture = Main.getHardwareStore().getHardwareStoreMap().get(i);
+
+            if(selectedFurniture.getName().contains(selectedItemInList)) {
+                op_changer.setText(selectedFurniture.getOriginalPrice() + "€");
+                dp_changer.setText(selectedFurniture.getDiscountPrice() + "€");
+            }
+        }
+    }
+
+    private void readActionPerformed(ActionEvent e) {
+        Main.getFileManager().readFromFiles();
+    }
+
+    private void writeActionPerformed(ActionEvent e) {
+        Main.getFileManager().saveFiles();
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - unknown
@@ -207,6 +256,8 @@ public class MainFrameNew extends JFrame {
         Area = new JMenu();
         Category = new JMenu();
         etc = new JMenu();
+        set_discount = new JMenuItem();
+        suggested_cart = new JMenuItem();
         scrollPane1 = new JScrollPane();
                             for(int i = 0; i < Main.getHardwareStore().getHardwareStoreMap().size(); i++){
                                     Furniture furniture = Main.getHardwareStore().getHardwareStoreMap().get(i+1);
@@ -229,11 +280,27 @@ public class MainFrameNew extends JFrame {
         dateLabel = new JLabel();
         selected_area_price = new JLabel();
         selected_category_price = new JLabel();
+        change_stock_dialog = new JDialog();
+        solid_current_stock = new JLabel();
+        current_stock = new JSpinner();
+        solid_current_furniture = new JLabel();
+        current_furniture = new JLabel();
+        change_price_dialog = new JDialog();
+        solid_current_furniture_price = new JLabel();
+        current_furniture_price = new JLabel();
+        current_price = new JLabel();
+        price_to_change = new JTextField();
 
         //======== this ========
         setTitle("HSMS by BACreations");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setIconImage(new ImageIcon("C:\\Users\\legri\\Documents\\BauMarkt\\ressources\\BAC_transparent.png").getImage());
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                mainWindowClosing(e);
+            }
+        });
         var contentPane = getContentPane();
 
         //======== menuBar ========
@@ -245,10 +312,12 @@ public class MainFrameNew extends JFrame {
 
                 //---- read ----
                 read.setText("Read");
+                read.addActionListener(e -> readActionPerformed(e));
                 file.add(read);
 
                 //---- write ----
                 write.setText("Write");
+                write.addActionListener(e -> writeActionPerformed(e));
                 file.add(write);
             }
             menuBar.add(file);
@@ -278,6 +347,14 @@ public class MainFrameNew extends JFrame {
             //======== etc ========
             {
                 etc.setText("Etc.");
+
+                //---- set_discount ----
+                set_discount.setText("Discount");
+                etc.add(set_discount);
+
+                //---- suggested_cart ----
+                suggested_cart.setText("Suggestion");
+                etc.add(suggested_cart);
             }
             menuBar.add(etc);
         }
@@ -429,6 +506,102 @@ public class MainFrameNew extends JFrame {
         );
         pack();
         setLocationRelativeTo(getOwner());
+
+        //======== change_stock_dialog ========
+        {
+            change_stock_dialog.setTitle("Change Stock");
+            var change_stock_dialogContentPane = change_stock_dialog.getContentPane();
+
+            //---- solid_current_stock ----
+            solid_current_stock.setText("Current Stock:");
+
+            //---- current_stock ----
+            current_stock.addChangeListener(e -> current_stockStateChanged(e));
+
+            //---- solid_current_furniture ----
+            solid_current_furniture.setText("Current Furniture:");
+
+            GroupLayout change_stock_dialogContentPaneLayout = new GroupLayout(change_stock_dialogContentPane);
+            change_stock_dialogContentPane.setLayout(change_stock_dialogContentPaneLayout);
+            change_stock_dialogContentPaneLayout.setHorizontalGroup(
+                change_stock_dialogContentPaneLayout.createParallelGroup()
+                    .addGroup(change_stock_dialogContentPaneLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(change_stock_dialogContentPaneLayout.createParallelGroup()
+                            .addGroup(change_stock_dialogContentPaneLayout.createSequentialGroup()
+                                .addComponent(solid_current_stock)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(current_stock, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                            .addGroup(change_stock_dialogContentPaneLayout.createSequentialGroup()
+                                .addComponent(solid_current_furniture)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(current_furniture)))
+                        .addContainerGap(145, Short.MAX_VALUE))
+            );
+            change_stock_dialogContentPaneLayout.setVerticalGroup(
+                change_stock_dialogContentPaneLayout.createParallelGroup()
+                    .addGroup(change_stock_dialogContentPaneLayout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addGroup(change_stock_dialogContentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(solid_current_furniture)
+                            .addComponent(current_furniture))
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(change_stock_dialogContentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(solid_current_stock)
+                            .addComponent(current_stock, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(36, Short.MAX_VALUE))
+            );
+            change_stock_dialog.pack();
+            change_stock_dialog.setLocationRelativeTo(change_stock_dialog.getOwner());
+        }
+
+        //======== change_price_dialog ========
+        {
+            change_price_dialog.setTitle("Change Price");
+            var change_price_dialogContentPane = change_price_dialog.getContentPane();
+
+            //---- solid_current_furniture_price ----
+            solid_current_furniture_price.setText("Current Furniture:");
+
+            //---- current_price ----
+            current_price.setText("Current Price:");
+
+            //---- price_to_change ----
+            price_to_change.addActionListener(e -> price_to_changeActionPerformed(e));
+
+            GroupLayout change_price_dialogContentPaneLayout = new GroupLayout(change_price_dialogContentPane);
+            change_price_dialogContentPane.setLayout(change_price_dialogContentPaneLayout);
+            change_price_dialogContentPaneLayout.setHorizontalGroup(
+                change_price_dialogContentPaneLayout.createParallelGroup()
+                    .addGroup(change_price_dialogContentPaneLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(change_price_dialogContentPaneLayout.createParallelGroup()
+                            .addGroup(change_price_dialogContentPaneLayout.createSequentialGroup()
+                                .addComponent(solid_current_furniture_price)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(current_furniture_price))
+                            .addGroup(change_price_dialogContentPaneLayout.createSequentialGroup()
+                                .addComponent(current_price)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(price_to_change, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+                        .addGap(181, 181, 181))
+            );
+            change_price_dialogContentPaneLayout.setVerticalGroup(
+                change_price_dialogContentPaneLayout.createParallelGroup()
+                    .addGroup(change_price_dialogContentPaneLayout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addGroup(change_price_dialogContentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(solid_current_furniture_price)
+                            .addComponent(current_furniture_price))
+                        .addGap(18, 18, 18)
+                        .addGroup(change_price_dialogContentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(current_price)
+                            .addComponent(price_to_change, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                        .addGap(17, 17, 17))
+            );
+            change_price_dialog.pack();
+            change_price_dialog.setLocationRelativeTo(change_price_dialog.getOwner());
+        }
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 
@@ -441,6 +614,8 @@ public class MainFrameNew extends JFrame {
     private JMenu Area;
     private JMenu Category;
     private JMenu etc;
+    private JMenuItem set_discount;
+    private JMenuItem suggested_cart;
     private JScrollPane scrollPane1;
     private JList product_list;
     private JLabel product_name;
@@ -459,6 +634,16 @@ public class MainFrameNew extends JFrame {
     private JLabel dateLabel;
     private JLabel selected_area_price;
     private JLabel selected_category_price;
+    private JDialog change_stock_dialog;
+    private JLabel solid_current_stock;
+    private JSpinner current_stock;
+    private JLabel solid_current_furniture;
+    private JLabel current_furniture;
+    private JDialog change_price_dialog;
+    private JLabel solid_current_furniture_price;
+    private JLabel current_furniture_price;
+    private JLabel current_price;
+    private JTextField price_to_change;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 
 

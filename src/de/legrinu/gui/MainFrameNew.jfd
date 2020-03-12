@@ -11,6 +11,7 @@ new FormModel {
 			"title": "HSMS by BACreations"
 			"defaultCloseOperation": 3
 			"iconImage": new com.jformdesigner.model.SwingIcon( 1, "C:\\Users\\legri\\Documents\\BauMarkt\\ressources\\BAC_transparent.png" )
+			addEvent( new FormEvent( "java.awt.event.WindowListener", "windowClosing", "mainWindowClosing", true ) )
 			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 				name: "scrollPane1"
 				add( new FormComponent( "javax.swing.JList" ) {
@@ -104,10 +105,12 @@ new FormModel {
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "read"
 						"text": "Read"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "readActionPerformed", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "write"
 						"text": "Write"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "writeActionPerformed", true ) )
 					} )
 				} )
 				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
@@ -127,11 +130,69 @@ new FormModel {
 				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
 					name: "etc"
 					"text": "Etc."
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "set_discount"
+						"text": "Discount"
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "suggested_cart"
+						"text": "Suggestion"
+					} )
 				} )
 			}
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
 			"size": new java.awt.Dimension( 440, 350 )
+		} )
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq {space :::p, par l {seq l {comp solid_current_stock:::p::p, space :::p, comp current_stock:::p::p}, seq l {comp solid_current_furniture:::p::p, space u:::p, comp current_furniture:::p::p}}, space ::145:x}}"
+			"$verticalGroup": "par l {seq l {space :p:5:p, par b {comp solid_current_furniture::b:p::p, comp current_furniture::b:p::p}, space :::p, par b {comp solid_current_stock::b:p::p, comp current_stock::b:p::p}, space ::36:x}}"
+		} ) {
+			name: "change_stock_dialog"
+			"title": "Change Stock"
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "solid_current_stock"
+				"text": "Current Stock:"
+			} )
+			add( new FormComponent( "javax.swing.JSpinner" ) {
+				name: "current_stock"
+				addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "current_stockStateChanged", true ) )
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "solid_current_furniture"
+				"text": "Current Furniture:"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "current_furniture"
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 20, 370 )
+			"size": new java.awt.Dimension( 335, 125 )
+		} )
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq {space :::p, par l {seq l {comp solid_current_furniture_price:::p::p, space u:::p, comp current_furniture_price:::p::p}, seq l {comp current_price:::p::p, space u:::p, comp price_to_change:::p::p}}, space :p:181:p}}"
+			"$verticalGroup": "par l {seq l {space :p:17:p, par b {comp solid_current_furniture_price::b:p::p, comp current_furniture_price::b:p::p}, space s:::p, par b {comp current_price::b:p::p, comp price_to_change::b:p::p}, space :p:17:p}}"
+		} ) {
+			name: "change_price_dialog"
+			"title": "Change Price"
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "solid_current_furniture_price"
+				"text": "Current Furniture:"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "current_furniture_price"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "current_price"
+				"text": "Current Price:"
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "price_to_change"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "price_to_changeActionPerformed", true ) )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 20, 510 )
+			"size": new java.awt.Dimension( 335, 130 )
 		} )
 	}
 }
