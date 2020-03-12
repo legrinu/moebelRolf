@@ -1,16 +1,15 @@
-package de.legrinu.gui;
+package de.legrinu.oldguiDELETELATER;
 
 import de.legrinu.HardwareStore;
 import de.legrinu.classes.Area;
 import de.legrinu.classes.Category;
-import de.legrinu.classes.Furniture;
+import de.legrinu.oldguiDELETELATER.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Map;
 
 public class SetDisountFrame extends JDialog implements ActionListener {
 

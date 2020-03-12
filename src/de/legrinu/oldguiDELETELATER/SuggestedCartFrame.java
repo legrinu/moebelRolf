@@ -1,7 +1,8 @@
-package de.legrinu.gui;
+package de.legrinu.oldguiDELETELATER;
 
 import de.legrinu.HardwareStore;
 import de.legrinu.classes.Furniture;
+import de.legrinu.oldguiDELETELATER.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class ChangeStockFrame extends JDialog implements ActionListener {
+public class SuggestedCartFrame extends JFrame implements ActionListener {
 
     private JLabel label;
     private MainFrame mainFrame;
@@ -23,7 +24,7 @@ public class ChangeStockFrame extends JDialog implements ActionListener {
     private ArrayList<String> furnitureArrayList;
     private HardwareStore hardwareStore = MainFrame.getHardwareStore();
 
-    public ChangeStockFrame(){
+    public SuggestedCartFrame(){
         label = new JLabel();
         change = new JButton();
         topPanel = new JPanel();
@@ -72,17 +73,5 @@ public class ChangeStockFrame extends JDialog implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
 
-        if(actionEvent.getSource() == change){
-            String furnitureName = (String) furnitureBox.getSelectedItem();
-            int changeBy = Integer.parseInt(input.getText());
-
-            for(Map.Entry<Integer, Furniture> entry : hardwareStore.getHardwareStoreMap().entrySet()){
-                Furniture furniture = entry.getValue();
-                if(furniture.getName().contains(furnitureName)){
-                    furniture.setStock(furniture.getStock() + changeBy);
-                    label.setText("Stock changed to " + furniture.getStock());
-                }
-            }
-        }
     }
 }

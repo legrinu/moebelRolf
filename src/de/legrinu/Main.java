@@ -1,8 +1,6 @@
 package de.legrinu;
 
-import de.legrinu.classes.Furniture;
 import de.legrinu.datamanagement.FileManager;
-import de.legrinu.gui.MainFrame;
 import de.legrinu.gui.MainFrameNew;
 
 public class Main {

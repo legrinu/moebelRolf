@@ -1,4 +1,4 @@
-package de.legrinu.gui;
+package de.legrinu.oldguiDELETELATER;
 
 import de.legrinu.HardwareStore;
 import de.legrinu.classes.Furniture;
@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class ChangePriceFrame extends JDialog implements ActionListener {
+public class ChangeStockFrame extends JDialog implements ActionListener {
 
     private JLabel label;
     private MainFrame mainFrame;
@@ -23,7 +23,7 @@ public class ChangePriceFrame extends JDialog implements ActionListener {
     private ArrayList<String> furnitureArrayList;
     private HardwareStore hardwareStore = MainFrame.getHardwareStore();
 
-    public ChangePriceFrame(){
+    public ChangeStockFrame(){
         label = new JLabel();
         change = new JButton();
         topPanel = new JPanel();
@@ -42,10 +42,10 @@ public class ChangePriceFrame extends JDialog implements ActionListener {
         change.setText("Change");
         change.addActionListener(this);
 
-        input.setToolTipText("Price to change");
+        input.setToolTipText("Stock to change");
         input.setSize(96, 96);
 
-        label.setText("Change Price");
+        label.setText("Change Stock");
 
         masterPanel.setLayout(new BorderLayout());
         topPanel.setLayout(new BorderLayout());
@@ -71,15 +71,16 @@ public class ChangePriceFrame extends JDialog implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
+
         if(actionEvent.getSource() == change){
             String furnitureName = (String) furnitureBox.getSelectedItem();
-            Double changeTo = Double.parseDouble(input.getText());
+            int changeBy = Integer.parseInt(input.getText());
 
             for(Map.Entry<Integer, Furniture> entry : hardwareStore.getHardwareStoreMap().entrySet()){
                 Furniture furniture = entry.getValue();
                 if(furniture.getName().contains(furnitureName)){
-                    furniture.setOriginalPrice(changeTo);
-                    label.setText("Price of " + furniture.getName() + " changed to: " + furniture.getOriginalPrice());
+                    furniture.setStock(furniture.getStock() + changeBy);
+                    label.setText("Stock changed to " + furniture.getStock());
                 }
             }
         }

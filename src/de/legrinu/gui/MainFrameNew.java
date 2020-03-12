@@ -197,55 +197,6 @@ public class MainFrameNew extends JFrame {
         }
     }
 
-  /*  private void CategoryActionPerformed(ActionEvent actionEvent) {
-        listModel.clear();
-
-        Object[] selectedItems = Category.getMenuComponents();
-        double totalValue = 0;
-        int selectedCounter = 0;
-        ArrayList<String> productNames = new ArrayList<>();
-
-        for(Object obj : selectedItems){
-            JCheckBoxMenuItem checkBox = (JCheckBoxMenuItem) obj;
-            if(checkBox.getState() == true){
-                for(Category categoryToFind : Main.getHardwareStore().getCategoryList()){
-                    if(categoryToFind.getCategoryName().contains(checkBox.getText())){
-                        //Part 1: Show Value
-                        totalValue += Main.getHardwareStore().totalCategoryPrice(categoryToFind);
-
-                        //Part 2: Add to ListModel
-                        for(Furniture furnitureFromList : Main.getHardwareStore().furnitureGivenCategoryList(categoryToFind)){
-                            listModel.addElement(furnitureFromList.getName());
-                        }
-                    }
-                }
-            }else{
-                selectedCounter++;
-            }
-        }
-        if(selectedCounter < selectedItems.length) {
-            //Part 1
-            price_selected_category.setVisible(true);
-            selected_category_price.setText(MathUtils.round(totalValue, 2) + "€");
-            selected_category_price.setVisible(true);
-
-            //Part 2
-            product_list.updateUI();
-        }else{
-            //Part 1
-            price_selected_category.setVisible(false);
-            selected_category_price.setVisible(false);
-
-            //Part 2
-            String[] stringArray = new String[Main.getHardwareStore().getHardwareStoreMap().size()];
-            for(int i = 0; i < Main.getHardwareStore().getHardwareStoreMap().size(); i++){
-                Furniture furniture = Main.getHardwareStore().getHardwareStoreMap().get(i+1);
-                listModel.addElement(furniture.getName());
-            }
-            product_list.updateUI();
-        }
-    } */
-
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - unknown

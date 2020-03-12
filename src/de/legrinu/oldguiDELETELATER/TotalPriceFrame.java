@@ -1,8 +1,9 @@
-package de.legrinu.gui;
+package de.legrinu.oldguiDELETELATER;
 
 import de.legrinu.HardwareStore;
 import de.legrinu.classes.Area;
 import de.legrinu.classes.Category;
+import de.legrinu.oldguiDELETELATER.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;

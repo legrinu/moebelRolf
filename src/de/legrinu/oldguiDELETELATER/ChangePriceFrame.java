@@ -1,4 +1,4 @@
-package de.legrinu.gui;
+package de.legrinu.oldguiDELETELATER;
 
 import de.legrinu.HardwareStore;
 import de.legrinu.classes.Furniture;
@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class SuggestedCartFrame extends JFrame implements ActionListener {
+public class ChangePriceFrame extends JDialog implements ActionListener {
 
     private JLabel label;
     private MainFrame mainFrame;
@@ -23,7 +23,7 @@ public class SuggestedCartFrame extends JFrame implements ActionListener {
     private ArrayList<String> furnitureArrayList;
     private HardwareStore hardwareStore = MainFrame.getHardwareStore();
 
-    public SuggestedCartFrame(){
+    public ChangePriceFrame(){
         label = new JLabel();
         change = new JButton();
         topPanel = new JPanel();
@@ -42,10 +42,10 @@ public class SuggestedCartFrame extends JFrame implements ActionListener {
         change.setText("Change");
         change.addActionListener(this);
 
-        input.setToolTipText("Stock to change");
+        input.setToolTipText("Price to change");
         input.setSize(96, 96);
 
-        label.setText("Change Stock");
+        label.setText("Change Price");
 
         masterPanel.setLayout(new BorderLayout());
         topPanel.setLayout(new BorderLayout());
@@ -71,6 +71,17 @@ public class SuggestedCartFrame extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
+        if(actionEvent.getSource() == change){
+            String furnitureName = (String) furnitureBox.getSelectedItem();
+            Double changeTo = Double.parseDouble(input.getText());
 
+            for(Map.Entry<Integer, Furniture> entry : hardwareStore.getHardwareStoreMap().entrySet()){
+                Furniture furniture = entry.getValue();
+                if(furniture.getName().contains(furnitureName)){
+                    furniture.setOriginalPrice(changeTo);
+                    label.setText("Price of " + furniture.getName() + " changed to: " + furniture.getOriginalPrice());
+                }
+            }
+        }
     }
 }
