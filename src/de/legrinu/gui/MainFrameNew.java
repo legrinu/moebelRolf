@@ -7,13 +7,15 @@ package de.legrinu.gui;
 import java.awt.*;
 import javax.swing.event.*;
 import de.legrinu.Main;
+import de.legrinu.Utils.MathUtils;
 import de.legrinu.classes.Area;
 import de.legrinu.classes.Category;
 import de.legrinu.classes.Furniture;
 
 import java.awt.event.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.Arrays;
 import javax.swing.*;
 import javax.swing.GroupLayout;
 
@@ -21,9 +23,11 @@ import javax.swing.GroupLayout;
  * @author unknown
  */
 public class MainFrameNew extends JFrame {
+
+    DefaultListModel listModel = new DefaultListModel();
+
     public MainFrameNew() {
         initComponents();
-        //initShit();
     }
 
     private void change_stockActionPerformed(ActionEvent e) {
@@ -39,37 +43,208 @@ public class MainFrameNew extends JFrame {
     }
 
     private void product_listValueChanged(ListSelectionEvent e) {
-        int selectedIndex = product_list.getSelectedIndex();
-        Furniture selectedFurniture = Main.getHardwareStore().getHardwareStoreMap().get(selectedIndex + 1);
+        int selectedIndex = product_list.getSelectedIndex() + 1;
+        String selectedItemText = (String) product_list.getSelectedValue();
 
-        product_name.setText(selectedFurniture.getName());
-        product_area.setText(selectedFurniture.getArea().getAreaName() + " | " + selectedFurniture.getCategory().getCategoryName());
-        op_changer.setText(selectedFurniture.getOriginalPrice() + " €");
-        dp_changer.setText(selectedFurniture.getDiscountPrice() + " €");
-        s_changer.setText(selectedFurniture.getStock() + "");
+        if(selectedIndex > 0) {
+
+            for(int i = 1; i < Main.getHardwareStore().getHardwareStoreMap().size()+1; i++) {
+                Furniture selectedFurniture = Main.getHardwareStore().getHardwareStoreMap().get(i);
+
+                if(selectedFurniture.getName().contains(selectedItemText)) {
+                    product_name.setText(selectedFurniture.getName());
+                    product_area.setText(selectedFurniture.getArea().getAreaName() + " | " + selectedFurniture.getCategory().getCategoryName());
+                    op_changer.setText(selectedFurniture.getOriginalPrice() + " €");
+                    dp_changer.setText(selectedFurniture.getDiscountPrice() + " €");
+                    s_changer.setText(selectedFurniture.getStock() + "");
+                }
+            }
+        }else{
+            product_name.setText("");
+            product_area.setText("");
+            op_changer.setText("");
+            dp_changer.setText("");
+            s_changer.setText("");
+        }
     }
 
-    private void AreaActionPerformed(ActionEvent e) { //TODO: Get it wo work
-        Object[] selectedItems = Area.getMenuComponents();
-        ArrayList<Area> selectedAreas = new ArrayList<>();
-        int totalValue = -1;
+    private void CategoryAreaActionPerformed(ActionEvent e) {
+        listModel.clear();
 
-        for(Object curObj : selectedItems){
-            if(e.getSource().equals(curObj)){
-                for(int i = 0; i < selectedItems.length; i++){
+        ArrayList<Component> selectedItemsList = new ArrayList<>();
+        selectedItemsList.addAll(Arrays.asList(Area.getMenuComponents()));
+        selectedItemsList.addAll(Arrays.asList(Category.getMenuComponents()));
 
-                    for(Area areaToFind : Main.getHardwareStore().getAreaList()){
-                        JCheckBoxMenuItem test = (JCheckBoxMenuItem) selectedItems[i];
-                        if(areaToFind.getAreaName().contains(test.getText())){
-                            selectedAreas.add(areaToFind);
-                            totalValue += areaToFind.getTotalPrice();
+        ArrayList<Furniture> intersectionArea = new ArrayList<>();
+        ArrayList<Furniture> intersectionCategory = new ArrayList<>();
+
+        int areaLength = Area.getMenuComponentCount();
+        int categoryLength = Category.getMenuComponentCount();
+
+        Object[] selectedItems = selectedItemsList.toArray();
+        double totalAreaValue = 0;
+        double totalCategoryValue = 0;
+
+        int selectedAreaCounter = 0;
+        int selectedCategoryCounter = 0;
+        int selectedArea = 0;
+        int selectedCategory = 0;
+
+        for(Object obj : Area.getMenuComponents()){
+            JCheckBoxMenuItem checkBoxMenuItem = (JCheckBoxMenuItem) obj;
+            if(checkBoxMenuItem.getState() == true){
+                selectedArea++;
+            }
+        }
+
+        for(Object obj : Category.getMenuComponents()){
+            JCheckBoxMenuItem checkBoxMenuItem = (JCheckBoxMenuItem) obj;
+            if(checkBoxMenuItem.getState() == true){
+                selectedCategory++;
+            }
+        }
+
+        for(Object obj : selectedItems){
+            JCheckBoxMenuItem checkBox = (JCheckBoxMenuItem) obj;
+
+            //Area Check
+            for(Area areaToFind : Main.getHardwareStore().getAreaList()){
+                if(areaToFind.getAreaName().contains(checkBox.getText())){
+                    if(checkBox.getState() == true){
+                        //Part 1: Show Value
+                        totalAreaValue += Main.getHardwareStore().totalAreaPrice(areaToFind);
+
+                        //Part 2: Add to ListModel
+                        for(Furniture furnitureFromList : Main.getHardwareStore().furnitureGivenAreaList(areaToFind)){
+                            if(!listModel.contains(furnitureFromList.getName())) {
+                                intersectionArea.add(furnitureFromList);
+                            }
                         }
+                    }else{
+                        selectedAreaCounter++;
+                    }
+                }
+            }
+
+            //Category Check
+            for(Category categoryToFind : Main.getHardwareStore().getCategoryList()){
+                if(categoryToFind.getCategoryName().contains(checkBox.getText())){
+                    if(checkBox.getState() == true){
+                        //Part 1: Show Value
+                        totalCategoryValue += Main.getHardwareStore().totalCategoryPrice(categoryToFind);
+
+                        //Part 2: Add to ListModel
+                        for(Furniture furnitureFromList : Main.getHardwareStore().furnitureGivenCategoryList(categoryToFind)){
+                            if(!listModel.contains(furnitureFromList.getName())) {
+                                intersectionCategory.add(furnitureFromList);
+                            }
+                        }
+                    }else{
+                        selectedCategoryCounter++;
                     }
                 }
             }
         }
-        price_selected_area.setText(price_selected_area.getText() + totalValue);
+
+        if(selectedArea >= 1 && selectedCategory >= 1) {
+            if (selectedAreaCounter < areaLength && selectedCategoryCounter < categoryLength) {
+                for (final Furniture intersectArea : intersectionArea) {
+                    for (final Furniture intersectCategory : intersectionCategory) {
+                        if (intersectArea.equals(intersectCategory)) {
+                            listModel.addElement(intersectArea.getName());
+                        }
+                    }
+                }
+            }
+        }else if(selectedArea >= 1 && selectedAreaCounter < areaLength) {
+            //Part 1
+            price_selected_area.setVisible(true);
+            selected_area_price.setText(MathUtils.round(totalAreaValue, 2) + "€");
+            selected_area_price.setVisible(true);
+
+            //Part 2
+            for(Furniture furniture : intersectionArea){
+                if(!listModel.contains(furniture.getName())) {
+                    listModel.addElement(furniture.getName());
+                }
+            }
+            product_list.updateUI();
+        }else if(selectedCategory >= 1 && selectedCategoryCounter < categoryLength){
+            //Part 1
+            price_selected_category.setVisible(true);
+            selected_category_price.setText(MathUtils.round(totalCategoryValue, 2) + "€");
+            selected_category_price.setVisible(true);
+
+            //Part 2
+            for(Furniture furniture : intersectionCategory){
+                if(!listModel.contains(furniture.getName())) {
+                    listModel.addElement(furniture.getName());
+                }
+            }
+            product_list.updateUI();
+        }else{
+            //Part 1
+            price_selected_area.setVisible(false);
+            selected_area_price.setVisible(false);
+
+            //Part 2
+            String[] stringArray = new String[Main.getHardwareStore().getHardwareStoreMap().size()];
+            for(int i = 0; i < Main.getHardwareStore().getHardwareStoreMap().size(); i++){
+                Furniture furniture = Main.getHardwareStore().getHardwareStoreMap().get(i+1);
+                listModel.addElement(furniture.getName());
+            }
+            product_list.updateUI();
+        }
     }
+
+  /*  private void CategoryActionPerformed(ActionEvent actionEvent) {
+        listModel.clear();
+
+        Object[] selectedItems = Category.getMenuComponents();
+        double totalValue = 0;
+        int selectedCounter = 0;
+        ArrayList<String> productNames = new ArrayList<>();
+
+        for(Object obj : selectedItems){
+            JCheckBoxMenuItem checkBox = (JCheckBoxMenuItem) obj;
+            if(checkBox.getState() == true){
+                for(Category categoryToFind : Main.getHardwareStore().getCategoryList()){
+                    if(categoryToFind.getCategoryName().contains(checkBox.getText())){
+                        //Part 1: Show Value
+                        totalValue += Main.getHardwareStore().totalCategoryPrice(categoryToFind);
+
+                        //Part 2: Add to ListModel
+                        for(Furniture furnitureFromList : Main.getHardwareStore().furnitureGivenCategoryList(categoryToFind)){
+                            listModel.addElement(furnitureFromList.getName());
+                        }
+                    }
+                }
+            }else{
+                selectedCounter++;
+            }
+        }
+        if(selectedCounter < selectedItems.length) {
+            //Part 1
+            price_selected_category.setVisible(true);
+            selected_category_price.setText(MathUtils.round(totalValue, 2) + "€");
+            selected_category_price.setVisible(true);
+
+            //Part 2
+            product_list.updateUI();
+        }else{
+            //Part 1
+            price_selected_category.setVisible(false);
+            selected_category_price.setVisible(false);
+
+            //Part 2
+            String[] stringArray = new String[Main.getHardwareStore().getHardwareStoreMap().size()];
+            for(int i = 0; i < Main.getHardwareStore().getHardwareStoreMap().size(); i++){
+                Furniture furniture = Main.getHardwareStore().getHardwareStoreMap().get(i+1);
+                listModel.addElement(furniture.getName());
+            }
+            product_list.updateUI();
+        }
+    } */
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
@@ -82,12 +257,11 @@ public class MainFrameNew extends JFrame {
         Category = new JMenu();
         etc = new JMenu();
         scrollPane1 = new JScrollPane();
-        String[] stringArray = new String[Main.getHardwareStore().getHardwareStoreMap().size()];
                             for(int i = 0; i < Main.getHardwareStore().getHardwareStoreMap().size(); i++){
                                     Furniture furniture = Main.getHardwareStore().getHardwareStoreMap().get(i+1);
-                                    stringArray[i] = furniture.getName();
+                                    listModel.addElement(furniture.getName());
                             }
-        product_list = new JList(stringArray);
+        product_list = new JList(listModel);
         product_name = new JLabel();
         product_area = new JLabel();
         original_price = new JLabel();
@@ -102,6 +276,8 @@ public class MainFrameNew extends JFrame {
         dp_changer = new JLabel();
         s_changer = new JLabel();
         dateLabel = new JLabel();
+        selected_area_price = new JLabel();
+        selected_category_price = new JLabel();
 
         //======== this ========
         setTitle("HSMS by BACreations");
@@ -131,7 +307,7 @@ public class MainFrameNew extends JFrame {
                 Area.setText("Area");
                         for(de.legrinu.classes.Area area : Main.getHardwareStore().getAreaList()){
                             JCheckBoxMenuItem checkBoxMenuItem = new JCheckBoxMenuItem(area.getAreaName());
-                            checkBoxMenuItem.addActionListener(this::AreaActionPerformed);
+                            checkBoxMenuItem.addActionListener(this::CategoryAreaActionPerformed);
                             Area.add(checkBoxMenuItem);
                         }
             }
@@ -141,7 +317,9 @@ public class MainFrameNew extends JFrame {
             {
                 Category.setText("Category");
                 for(de.legrinu.classes.Category category : Main.getHardwareStore().getCategoryList()){
-                            Category.add(new JCheckBoxMenuItem(category.getCategoryName()));
+                            JCheckBoxMenuItem checkBoxMenuItem = new JCheckBoxMenuItem(category.getCategoryName());
+                            checkBoxMenuItem.addActionListener(this::CategoryAreaActionPerformed);
+                            Category.add(checkBoxMenuItem);
                         }
             }
             menuBar.add(Category);
@@ -158,6 +336,7 @@ public class MainFrameNew extends JFrame {
         {
 
             //---- product_list ----
+            product_list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             product_list.addListSelectionListener(e -> product_listValueChanged(e));
             scrollPane1.setViewportView(product_list);
         }
@@ -192,9 +371,11 @@ public class MainFrameNew extends JFrame {
 
         //---- price_selected_area ----
         price_selected_area.setText("Price of selected Area: ");
+        price_selected_area.setVisible(false);
 
         //---- price_selected_category ----
         price_selected_category.setText("Price of selected Category: ");
+        price_selected_category.setVisible(false);
 
         //---- dateLabel ----
         dateLabel.setText("Alea iacta est");
@@ -202,22 +383,30 @@ public class MainFrameNew extends JFrame {
 
                 dateLabel.setText("" + java.time.LocalDate.now());
 
+        //---- selected_area_price ----
+        selected_area_price.setText("0\u20ac");
+        selected_area_price.setVisible(false);
+
+        //---- selected_category_price ----
+        selected_category_price.setText("0\u20ac");
+        selected_category_price.setVisible(false);
+
         GroupLayout contentPaneLayout = new GroupLayout(contentPane);
         contentPane.setLayout(contentPaneLayout);
         contentPaneLayout.setHorizontalGroup(
             contentPaneLayout.createParallelGroup()
                 .addGroup(contentPaneLayout.createSequentialGroup()
-                    .addGap(83, 83, 83)
-                    .addComponent(price_selected_area)
-                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
-                    .addComponent(price_selected_category)
-                    .addGap(37, 37, 37))
+                    .addComponent(footer, GroupLayout.PREFERRED_SIZE, 217, GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(dateLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(contentPaneLayout.createSequentialGroup()
                     .addGap(17, 17, 17)
-                    .addComponent(scrollPane1, GroupLayout.PREFERRED_SIZE, 137, GroupLayout.PREFERRED_SIZE)
+                    .addGroup(contentPaneLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                        .addComponent(price_selected_area)
+                        .addComponent(scrollPane1, GroupLayout.PREFERRED_SIZE, 137, GroupLayout.PREFERRED_SIZE))
                     .addGroup(contentPaneLayout.createParallelGroup()
-                        .addGroup(contentPaneLayout.createSequentialGroup()
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                        .addGroup(GroupLayout.Alignment.TRAILING, contentPaneLayout.createSequentialGroup()
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(contentPaneLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
                                 .addComponent(product_name, GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
                                 .addComponent(product_area, GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
@@ -235,15 +424,20 @@ public class MainFrameNew extends JFrame {
                                     .addComponent(op_changer)))
                             .addGap(59, 59, 59))
                         .addGroup(contentPaneLayout.createSequentialGroup()
-                            .addGap(29, 29, 29)
-                            .addComponent(change_stock)
-                            .addGap(18, 18, 18)
-                            .addComponent(change_price)
+                            .addGroup(contentPaneLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                .addGroup(contentPaneLayout.createSequentialGroup()
+                                    .addGap(29, 29, 29)
+                                    .addComponent(change_stock)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(change_price))
+                                .addGroup(contentPaneLayout.createSequentialGroup()
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(selected_area_price, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(price_selected_category)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(selected_category_price, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)))
                             .addContainerGap(28, Short.MAX_VALUE))))
-                .addGroup(contentPaneLayout.createSequentialGroup()
-                    .addComponent(footer, GroupLayout.PREFERRED_SIZE, 217, GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(dateLabel, GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE))
         );
         contentPaneLayout.setVerticalGroup(
             contentPaneLayout.createParallelGroup()
@@ -271,10 +465,12 @@ public class MainFrameNew extends JFrame {
                                 .addComponent(change_stock)
                                 .addComponent(change_price)))
                         .addComponent(scrollPane1, GroupLayout.PREFERRED_SIZE, 196, GroupLayout.PREFERRED_SIZE))
-                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                    .addGap(14, 14, 14)
                     .addGroup(contentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                         .addComponent(price_selected_area)
-                        .addComponent(price_selected_category))
+                        .addComponent(price_selected_category)
+                        .addComponent(selected_area_price)
+                        .addComponent(selected_category_price))
                     .addGap(18, 18, 18)
                     .addGroup(contentPaneLayout.createParallelGroup()
                         .addComponent(footer)
@@ -285,19 +481,6 @@ public class MainFrameNew extends JFrame {
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 
-
-    private void initShit(){
-        //======== product_list ========
-
-        {
-            for(Map.Entry<Integer, Furniture> entry : Main.getHardwareStore().getHardwareStoreMap().entrySet()){
-                Furniture furniture = entry.getValue();
-                product_list.add(new JLabel(furniture.getName()));
-            }
-
-            scrollPane1.add(product_list);
-        }
-    }
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
     // Generated using JFormDesigner Evaluation license - unknown
     private JMenuBar menuBar;
@@ -323,6 +506,8 @@ public class MainFrameNew extends JFrame {
     private JLabel dp_changer;
     private JLabel s_changer;
     private JLabel dateLabel;
+    private JLabel selected_area_price;
+    private JLabel selected_category_price;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 
 

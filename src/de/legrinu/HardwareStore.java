@@ -62,6 +62,28 @@ public class HardwareStore {
         return  totalHighestPrice;
     }
 
+    public ArrayList<Furniture> furnitureGivenCategoryList(Category pCategory){
+        ArrayList<Furniture> furnitureArrayList = new ArrayList<>();
+        for(int i = 1; i < this.getHardwareStoreMap().size() + 1; i++){
+            Category furnitureCategory = this.getHardwareStoreMap().get(i).getCategory();
+            if(pCategory == furnitureCategory){
+                furnitureArrayList.add(this.getHardwareStoreMap().get(i));
+            }
+        }
+        return furnitureArrayList;
+    }
+
+    public ArrayList<Furniture> furnitureGivenAreaList(Area pArea){
+        ArrayList<Furniture> furnitureArrayList = new ArrayList<>();
+        for(int i = 1; i < this.getHardwareStoreMap().size() + 1; i++){
+            Area furnitureArea = this.getHardwareStoreMap().get(i).getArea();
+            if(pArea == furnitureArea){
+                furnitureArrayList.add(this.getHardwareStoreMap().get(i));
+            }
+        }
+        return furnitureArrayList;
+    }
+
     public String[] suggestionShoppingCartArray(double pShoppingCartValue){
         Object[] suggestedArray = suggestionShoppingCart(pShoppingCartValue);
         ArrayList<Object> suggestionShoppingCartObject = (ArrayList<Object>) suggestedArray[0];

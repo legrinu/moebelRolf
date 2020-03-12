@@ -4,8 +4,8 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq {space :p:83:p, comp price_selected_area:::p::p, space ::56:x, comp price_selected_category:::p::p, space :p:37:p}, seq {space :p:17:p, comp scrollPane1:::p:137:p, par l {seq {space ::49:x, par l:::p {comp product_name::::176:x, comp product_area::l::176:x, seq l {comp product_stock::::170:x, space :::p, comp s_changer:::p::p}, seq l {comp discount_price:::::x, space :::p, comp dp_changer:::p::p}, seq l {comp original_price:::p::p, space :::x, comp op_changer:::p::p}}, space :p:59:p}, seq l {space :p:29:p, comp change_stock:::p::p, space s:::p, comp change_price:::p::p, space ::28:x}}}, seq l {comp footer:::p:217:p, space :::p, comp dateLabel::::215:x}}"
-			"$verticalGroup": "par l {seq l {space :p:22:p, par l {seq {comp product_name:::p::p, space :::p, comp product_area:::p::p, space s:::p, par l {comp original_price:::p::p, comp op_changer:::p::p}, space :::p, par b {comp discount_price::b:p::p, comp dp_changer::b:p::p}, space :::p, par b {comp product_stock::b:p::p, comp s_changer::b:p::p}, space :p:64:p, par t {comp change_stock:::p::p, comp change_price:::p::p}}, comp scrollPane1:::p:196:p}, space ::14:x, par b {comp price_selected_area::b:p::p, comp price_selected_category::b:p::p}, space s:::p, par l {comp footer:::p::p, comp dateLabel:::p::p}}}"
+			"$horizontalGroup": "par l {seq l {comp footer:::p:217:p, space :::p, comp dateLabel:::::x}, seq l {space :p:17:p, par t {comp price_selected_area:::p::p, comp scrollPane1:::p:137:p}, par l {seq t {space :::x, par l:::p {comp product_name::::176:x, comp product_area::l::176:x, seq l {comp product_stock::::170:x, space :::p, comp s_changer:::p::p}, seq l {comp discount_price:::::x, space :::p, comp dp_changer:::p::p}, seq l {comp original_price:::p::p, space :::x, comp op_changer:::p::p}}, space :p:59:p}, seq {par l:::p {seq {space :p:29:p, comp change_stock:::p::p, space s:::p, comp change_price:::p::p}, seq {space :::p, comp selected_area_price:::p:57:p, space :::p, comp price_selected_category:::p::p, space :::p, comp selected_category_price:::p:48:p}}, space ::28:x}}}}"
+			"$verticalGroup": "par l {seq l {space :p:22:p, par l {seq {comp product_name:::p::p, space :::p, comp product_area:::p::p, space s:::p, par l {comp original_price:::p::p, comp op_changer:::p::p}, space :::p, par b {comp discount_price::b:p::p, comp dp_changer::b:p::p}, space :::p, par b {comp product_stock::b:p::p, comp s_changer::b:p::p}, space :p:64:p, par t {comp change_stock:::p::p, comp change_price:::p::p}}, comp scrollPane1:::p:196:p}, space :p:14:p, par b {comp price_selected_area::b:p::p, comp price_selected_category::b:p::p, comp selected_area_price::b:p::p, comp selected_category_price::b:p::p}, space s:::p, par l {comp footer:::p::p, comp dateLabel:::p::p}}}"
 		} ) {
 			name: "this"
 			"title": "HSMS by BACreations"
@@ -16,8 +16,9 @@ new FormModel {
 				add( new FormComponent( "javax.swing.JList" ) {
 					name: "product_list"
 					auxiliary() {
-						"JavaCodeGenerator.preCreateCode": "String[] stringArray = new String[Main.getHardwareStore().getHardwareStoreMap().size()];\n                    for(int i = 0; i < Main.getHardwareStore().getHardwareStoreMap().size(); i++){\n                            Furniture furniture = Main.getHardwareStore().getHardwareStoreMap().get(i+1);\n                            stringArray[i] = furniture.getName();\n                    }"
-						"JavaCodeGenerator.customCreateCode": "new JList(stringArray);"
+						"JavaCodeGenerator.preCreateCode": "                    for(int i = 0; i < Main.getHardwareStore().getHardwareStoreMap().size(); i++){\n                            Furniture furniture = Main.getHardwareStore().getHardwareStoreMap().get(i+1);\n                            listModel.addElement(furniture.getName());\n                    }"
+						"JavaCodeGenerator.customCreateCode": "new JList(listModel);"
+						"JavaCodeGenerator.preInitCode": "product_list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);"
 					}
 					addEvent( new FormEvent( "javax.swing.event.ListSelectionListener", "valueChanged", "product_listValueChanged", true ) )
 				} )
@@ -61,10 +62,12 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "price_selected_area"
 				"text": "Price of selected Area: "
+				"visible": false
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "price_selected_category"
 				"text": "Price of selected Category: "
+				"visible": false
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "op_changer"
@@ -82,6 +85,16 @@ new FormModel {
 				auxiliary() {
 					"JavaCodeGenerator.postInitCode": "\n        dateLabel.setText(\"\" + java.time.LocalDate.now());"
 				}
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "selected_area_price"
+				"text": "0€"
+				"visible": false
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "selected_category_price"
+				"text": "0€"
+				"visible": false
 			} )
 			menuBar: new FormContainer( "javax.swing.JMenuBar", new FormLayoutManager( class javax.swing.JMenuBar ) ) {
 				name: "menuBar"
@@ -101,14 +114,14 @@ new FormModel {
 					name: "Area"
 					"text": "Area"
 					auxiliary() {
-						"JavaCodeGenerator.postInitCode": "        for(de.legrinu.classes.Area area : Main.getHardwareStore().getAreaList()){\n            JCheckBoxMenuItem checkBoxMenuItem = new JCheckBoxMenuItem(area.getAreaName());\n            checkBoxMenuItem.addActionListener(this::AreaActionPerformed);\n            Area.add(checkBoxMenuItem);\n        }"
+						"JavaCodeGenerator.postInitCode": "        for(de.legrinu.classes.Area area : Main.getHardwareStore().getAreaList()){\n            JCheckBoxMenuItem checkBoxMenuItem = new JCheckBoxMenuItem(area.getAreaName());\n            checkBoxMenuItem.addActionListener(this::CategoryAreaActionPerformed);\n            Area.add(checkBoxMenuItem);\n        }"
 					}
 				} )
 				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
 					name: "Category"
 					"text": "Category"
 					auxiliary() {
-						"JavaCodeGenerator.postInitCode": "for(de.legrinu.classes.Category category : Main.getHardwareStore().getCategoryList()){\n            Category.add(new JCheckBoxMenuItem(category.getCategoryName()));\n        }"
+						"JavaCodeGenerator.postInitCode": "for(de.legrinu.classes.Category category : Main.getHardwareStore().getCategoryList()){\n\t\t\tJCheckBoxMenuItem checkBoxMenuItem = new JCheckBoxMenuItem(category.getCategoryName());\n            checkBoxMenuItem.addActionListener(this::CategoryAreaActionPerformed);\n            Category.add(checkBoxMenuItem);\n        }"
 					}
 				} )
 				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
