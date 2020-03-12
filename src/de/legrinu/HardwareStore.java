@@ -55,7 +55,9 @@ public class HardwareStore {
 
         Area totalHighestPrice = null;
         for(Area area : areaList){
-            if(area.getTotalPrice() > totalHighestPrice.getTotalPrice() || totalHighestPrice == null){
+            if(totalHighestPrice == null){
+                totalHighestPrice = area;
+            }else if(area.getTotalPrice() > totalHighestPrice.getTotalPrice()){
                 totalHighestPrice = area;
             }
         }
@@ -88,18 +90,17 @@ public class HardwareStore {
         Object[] suggestedArray = suggestionShoppingCart(pShoppingCartValue);
         ArrayList<Object> suggestionShoppingCartObject = (ArrayList<Object>) suggestedArray[0];
         ArrayList<Furniture> suggestionShoppingCartFurniture = new ArrayList<>();
-        String[] returnValue = new String[suggestionShoppingCartObject.size()];
+        String[] returnValue = new String[suggestionShoppingCartObject.size()+1];
 
         for(Object obj : suggestionShoppingCartObject){
             suggestionShoppingCartFurniture.add((Furniture) obj);
         }
 
         for(int i = 0; i < suggestionShoppingCartFurniture.size(); i++){
-            returnValue[i] = "Name: " + suggestionShoppingCartFurniture.get(i).getName() + " | Price: "
-                    + suggestionShoppingCartFurniture.get(i).getDiscountPrice();
+            returnValue[i] = suggestionShoppingCartFurniture.get(i).getName();
         }
 
-        System.out.println("Remaining price: " + MathUtils.round((Double) suggestedArray[1], 2));
+        returnValue[returnValue.length - 1] = "Remaining price: " + MathUtils.round((Double) suggestedArray[1], 2);
 
         return returnValue;
     }

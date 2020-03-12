@@ -1,5 +1,7 @@
 package de.legrinu.classes;
 
+import de.legrinu.Utils.MathUtils;
+
 import java.util.*;
 
 public class Area extends Groups{
@@ -21,7 +23,7 @@ public class Area extends Groups{
     }
 
     public double getTotalPrice() {
-        return totalPrice;
+        return MathUtils.round(totalPrice, 2);
     }
 
     public void setTotalPrice(double totalPrice) {

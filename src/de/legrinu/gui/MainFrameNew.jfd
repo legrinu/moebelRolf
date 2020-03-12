@@ -133,15 +133,32 @@ new FormModel {
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "set_discount"
 						"text": "Discount"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "set_discountActionPerformed", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "suggested_cart"
 						"text": "Suggestion"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "suggested_cartActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "total_stock_price"
+						"text": "Total Stock Price"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "total_stock_priceActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "area_total_highest_price"
+						"text": "Area with highest total price"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "highest_area_priceActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "reset"
+						"text": "Reset Selection"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "resetActionPerformed", true ) )
 					} )
 				} )
 			}
 		}, new FormLayoutConstraints( null ) {
-			"location": new java.awt.Point( 0, 0 )
+			"location": new java.awt.Point( 5, 0 )
 			"size": new java.awt.Dimension( 440, 350 )
 		} )
 		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
@@ -166,7 +183,7 @@ new FormModel {
 				name: "current_furniture"
 			} )
 		}, new FormLayoutConstraints( null ) {
-			"location": new java.awt.Point( 20, 370 )
+			"location": new java.awt.Point( 0, 375 )
 			"size": new java.awt.Dimension( 335, 125 )
 		} )
 		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
@@ -191,8 +208,101 @@ new FormModel {
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "price_to_changeActionPerformed", true ) )
 			} )
 		}, new FormLayoutConstraints( null ) {
-			"location": new java.awt.Point( 20, 510 )
+			"location": new java.awt.Point( 0, 510 )
 			"size": new java.awt.Dimension( 335, 130 )
+		} )
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq l {space :p:16:p, comp solid_cart_value:::p::p, space :::p, comp cart_value:::p::p, space ::25:x}}"
+			"$verticalGroup": "par l {seq l {space :p:31:p, par b {comp solid_cart_value::b:p::p, comp cart_value::b:p::p}, space ::17:x}}"
+		} ) {
+			name: "suggested_cart_dialog"
+			"title": "Suggested Shopping Cart Value"
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "solid_cart_value"
+				"text": "Cart Value:"
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "cart_value"
+				"text": "187.69"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cart_valueActionPerformed", true ) )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 455, 160 )
+			"size": new java.awt.Dimension( 170, 110 )
+		} )
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq l {space :p:18:p, comp remaining_value:::p:162:p, space :::x}}"
+			"$verticalGroup": "par l {seq l {space :p:22:p, comp remaining_value:::p::p, space ::30:x}}"
+		} ) {
+			name: "remaining_value_dialog"
+			"title": "Remaining Value"
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "remaining_value"
+				"text": "Remaining Value: 10.01"
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 460, 50 )
+			"size": new java.awt.Dimension( 175, 100 )
+		} )
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq l {space :::p, comp scrollPane2:::p:92:p, space :p:56:p, par l {comp discount_input:::p:95:p, comp discount_button:::p::p}, space :p:141:p}}"
+			"$verticalGroup": "par l {seq {par l {seq {space :p:76:p, comp discount_input:::p::p, space :p:32:p, comp discount_button:::p::p}, seq l {space :::p, comp scrollPane2:::p:189:p}}, space ::8:x}}"
+		} ) {
+			name: "discount_dialog"
+			"title": "Set Discount"
+			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+				name: "scrollPane2"
+				add( new FormComponent( "javax.swing.JList" ) {
+					name: "discount_list"
+					addEvent( new FormEvent( "javax.swing.event.ListSelectionListener", "valueChanged", "discount_listValueChanged", true ) )
+				} )
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "discount_input"
+				"text": "0.00"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "discount_button"
+				"text": "Set Discount"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "setDiscount_buttonActionPerformed", true ) )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 470, 285 )
+			"size": new java.awt.Dimension( 280, 235 )
+		} )
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq l {space :::p, comp solid_total_stock_price:::p::p, space :::p, comp total_stock_price_change:::p::p, space ::96:x}}"
+			"$verticalGroup": "par l {seq l {space :p:24:p, par b {comp solid_total_stock_price::b:p::p, comp total_stock_price_change::b:p::p}, space ::23:x}}"
+		} ) {
+			name: "total_stock_dialog"
+			"title": "Total Stock Price"
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "solid_total_stock_price"
+				"text": "Total Stock Price:"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "total_stock_price_change"
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 640, 50 )
+			"size": new java.awt.Dimension( 200, 95 )
+		} )
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq l {space :::p, comp area_total_highest_price_solid:::p::p, space u:::p, comp area_total_highest_price_change:::p::p, space ::168:x}}"
+			"$verticalGroup": "par l {seq l {space :p:24:p, par b {comp area_total_highest_price_solid::b:p::p, comp area_total_highest_price_change::b:p::p}, space ::33:x}}"
+		} ) {
+			name: "area_total_highest_price_dialog"
+			"title": "Area with highest total price"
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "area_total_highest_price_solid"
+				"text": "Area with highest total price:"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "area_total_highest_price_change"
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 370, 525 )
+			"size": new java.awt.Dimension( 340, 105 )
 		} )
 	}
 }
