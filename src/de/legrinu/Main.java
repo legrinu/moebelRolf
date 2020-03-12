@@ -10,13 +10,6 @@ public class Main {
 
     public static void main(String[] args) {
         fileManager.readFromFiles();
-        //MainFrame mainFrame = new MainFrame();
-        //mainFrame.setVisible(true);//Hier alle auszuführenden Funktionen eintragen
-        //FileManager.saveFiles();
-
-       /* for(String string : hardwareStore.suggestionShoppingCartArray(499.99)){
-            System.out.println(string);
-        } */
 
         MainFrameNew mainFrameNew = new MainFrameNew();
         mainFrameNew.setVisible(true);
