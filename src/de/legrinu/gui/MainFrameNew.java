@@ -11,12 +11,8 @@ import de.legrinu.Utils.MathUtils;
 import de.legrinu.classes.Area;
 import de.legrinu.classes.Category;
 import de.legrinu.classes.Furniture;
-import de.legrinu.datamanagement.FileManager;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.SelectionModel;
 
 import java.awt.event.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
@@ -37,15 +33,21 @@ public class MainFrameNew extends JFrame {
     }
 
     private void change_stockActionPerformed(ActionEvent e) {
-        current_stock.setModel(new SpinnerNumberModel(currentActiveFurniture.getStock(), 0, 999, 1));
-        current_furniture.setText(currentActiveFurniture.getName());
-        change_stock_dialog.setVisible(true);
+        if(currentActiveFurniture != null) {
+            current_stock.setModel(new SpinnerNumberModel(currentActiveFurniture.getStock(), 0, 999, 1));
+            current_furniture.setText(currentActiveFurniture.getName());
+            change_stock_dialog.setIconImage(new ImageIcon("C:\\Users\\legri\\Documents\\BauMarkt\\ressources\\BAC_transparent.png").getImage());
+            change_stock_dialog.setVisible(true);
+        }
     }
 
     private void change_priceActionPerformed(ActionEvent e) {
-        current_furniture_price.setText(currentActiveFurniture.getName());
-        price_to_change.setText(currentActiveFurniture.getOriginalPrice() + "");
-       change_price_dialog.setVisible(true);
+        if(currentActiveFurniture != null) {
+            current_furniture_price.setText(currentActiveFurniture.getName());
+            price_to_change.setText(currentActiveFurniture.getOriginalPrice() + "");
+            change_price_dialog.setIconImage(new ImageIcon("C:\\Users\\legri\\Documents\\BauMarkt\\ressources\\BAC_transparent.png").getImage());
+            change_price_dialog.setVisible(true);
+        }
     }
 
     private void createUIComponents() {
@@ -58,8 +60,8 @@ public class MainFrameNew extends JFrame {
 
         if(selectedIndex > 0) {
 
-            for(int i = 1; i < Main.getHardwareStore().getHardwareStoreMap().size()+1; i++) {
-                Furniture selectedFurniture = Main.getHardwareStore().getHardwareStoreMap().get(i);
+            for(int i = 1; i < Main.getMainStore().getHardwareStoreMap().size()+1; i++) {
+                Furniture selectedFurniture = Main.getMainStore().getHardwareStoreMap().get(i);
 
                 if(selectedFurniture.getName().contains(selectedItemText)) {
                     product_name.setText(selectedFurniture.getName());
@@ -121,14 +123,14 @@ public class MainFrameNew extends JFrame {
             JCheckBoxMenuItem checkBox = (JCheckBoxMenuItem) obj;
 
             //Area Check
-            for(Area areaToFind : Main.getHardwareStore().getAreaList()){
+            for(Area areaToFind : Main.getMainStore().getAreaList()){
                 if(areaToFind.getAreaName().contains(checkBox.getText())){
                     if(checkBox.getState() == true){
                         //Part 1: Show Value
-                        totalAreaValue += Main.getHardwareStore().totalAreaPrice(areaToFind);
+                        totalAreaValue += Main.getMainStore().totalAreaPrice(areaToFind);
 
                         //Part 2: Add to ListModel
-                        for(Furniture furnitureFromList : Main.getHardwareStore().furnitureGivenAreaList(areaToFind)){
+                        for(Furniture furnitureFromList : Main.getMainStore().furnitureGivenAreaList(areaToFind)){
                             if(!listModel.contains(furnitureFromList.getName())) {
                                 intersectionArea.add(furnitureFromList);
                             }
@@ -140,14 +142,14 @@ public class MainFrameNew extends JFrame {
             }
 
             //Category Check
-            for(Category categoryToFind : Main.getHardwareStore().getCategoryList()){
+            for(Category categoryToFind : Main.getMainStore().getCategoryList()){
                 if(categoryToFind.getCategoryName().contains(checkBox.getText())){
                     if(checkBox.getState() == true){
                         //Part 1: Show Value
-                        totalCategoryValue += Main.getHardwareStore().totalCategoryPrice(categoryToFind);
+                        totalCategoryValue += Main.getMainStore().totalCategoryPrice(categoryToFind);
 
                         //Part 2: Add to ListModel
-                        for(Furniture furnitureFromList : Main.getHardwareStore().furnitureGivenCategoryList(categoryToFind)){
+                        for(Furniture furnitureFromList : Main.getMainStore().furnitureGivenCategoryList(categoryToFind)){
                             if(!listModel.contains(furnitureFromList.getName())) {
                                 intersectionCategory.add(furnitureFromList);
                             }
@@ -214,9 +216,9 @@ public class MainFrameNew extends JFrame {
             selected_category_price.setVisible(false);
 
             //Part 2
-            String[] stringArray = new String[Main.getHardwareStore().getHardwareStoreMap().size()];
-            for(int i = 0; i < Main.getHardwareStore().getHardwareStoreMap().size(); i++){
-                Furniture furniture = Main.getHardwareStore().getHardwareStoreMap().get(i+1);
+            String[] stringArray = new String[Main.getMainStore().getHardwareStoreMap().size()];
+            for(int i = 0; i < Main.getMainStore().getHardwareStoreMap().size(); i++){
+                Furniture furniture = Main.getMainStore().getHardwareStoreMap().get(i+1);
                 listModel.addElement(furniture.getName());
             }
             product_list.updateUI();
@@ -227,8 +229,8 @@ public class MainFrameNew extends JFrame {
         int currentValue = (int) current_stock.getValue();
         currentActiveFurniture.setStock(currentValue);
 
-        for(int i = 1; i < Main.getHardwareStore().getHardwareStoreMap().size()+1; i++) {
-            Furniture selectedFurniture = Main.getHardwareStore().getHardwareStoreMap().get(i);
+        for(int i = 1; i < Main.getMainStore().getHardwareStoreMap().size()+1; i++) {
+            Furniture selectedFurniture = Main.getMainStore().getHardwareStoreMap().get(i);
 
             if(selectedFurniture.getName().contains(selectedItemInList)) {
                 s_changer.setText(selectedFurniture.getStock() + "");
@@ -244,8 +246,8 @@ public class MainFrameNew extends JFrame {
         Double priceToChange = Double.parseDouble(price_to_change.getText());
         currentActiveFurniture.setOriginalPrice(priceToChange);
 
-        for(int i = 1; i < Main.getHardwareStore().getHardwareStoreMap().size()+1; i++) {
-            Furniture selectedFurniture = Main.getHardwareStore().getHardwareStoreMap().get(i);
+        for(int i = 1; i < Main.getMainStore().getHardwareStoreMap().size()+1; i++) {
+            Furniture selectedFurniture = Main.getMainStore().getHardwareStoreMap().get(i);
 
             if(selectedFurniture.getName().contains(selectedItemInList)) {
                 op_changer.setText(selectedFurniture.getOriginalPrice() + "€");
@@ -264,7 +266,7 @@ public class MainFrameNew extends JFrame {
 
     private void resetActionPerformed(ActionEvent e) {
         listModel.clear();
-        for(Map.Entry<Integer, Furniture> entry : Main.getHardwareStore().getHardwareStoreMap().entrySet()){
+        for(Map.Entry<Integer, Furniture> entry : Main.getMainStore().getHardwareStoreMap().entrySet()){
             String furnitureName = entry.getValue().getName();
             listModel.addElement(furnitureName);
         }
@@ -290,7 +292,7 @@ public class MainFrameNew extends JFrame {
     private void cart_valueActionPerformed(ActionEvent e) {
         listModel.clear();
         Double input = Double.parseDouble(cart_value.getText());
-        String[] suggestedCart = Main.getHardwareStore().suggestionShoppingCartArray(input);
+        String[] suggestedCart = Main.getMainStore().suggestionShoppingCartArray(input);
 
         for(int i = 0; i < suggestedCart.length - 1; i++){
             listModel.addElement(suggestedCart[i]);
@@ -298,10 +300,12 @@ public class MainFrameNew extends JFrame {
         product_list.updateUI();
 
         remaining_value.setText(suggestedCart[suggestedCart.length-1]);
+        remaining_value_dialog.setIconImage(new ImageIcon("C:\\Users\\legri\\Documents\\BauMarkt\\ressources\\BAC_transparent.png").getImage());
         remaining_value_dialog.setVisible(true);
     }
 
     private void suggested_cartActionPerformed(ActionEvent e) {
+        suggested_cart_dialog.setIconImage(new ImageIcon("C:\\Users\\legri\\Documents\\BauMarkt\\ressources\\BAC_transparent.png").getImage());
         suggested_cart_dialog.setVisible(true);
     }
 
@@ -309,12 +313,12 @@ public class MainFrameNew extends JFrame {
         DefaultListModel discountModel = new DefaultListModel();
 
         discountModel.addElement("---Area---");
-        for(Area area : Main.getHardwareStore().getAreaList()){
+        for(Area area : Main.getMainStore().getAreaList()){
             discountModel.addElement(area.getAreaName());
         }
 
         discountModel.addElement("---Category---");
-        for(Category category : Main.getHardwareStore().getCategoryList()){
+        for(Category category : Main.getMainStore().getCategoryList()){
             discountModel.addElement(category.getCategoryName());
         }
 
@@ -322,6 +326,7 @@ public class MainFrameNew extends JFrame {
         discount_list.setModel(discountModel);
         discount_list.updateUI();
 
+        discount_dialog.setIconImage(new ImageIcon("C:\\Users\\legri\\Documents\\BauMarkt\\ressources\\BAC_transparent.png").getImage());
         discount_dialog.setVisible(true);
     }
 
@@ -330,7 +335,7 @@ public class MainFrameNew extends JFrame {
         Double input = Double.parseDouble(discount_input.getText());
         boolean finished = false;
 
-        for(Area area : Main.getHardwareStore().getAreaList()){
+        for(Area area : Main.getMainStore().getAreaList()){
             if(!finished){
                 if(area.getAreaName().contains(selectedItem)){
                     area.setDiscount(input);
@@ -341,7 +346,7 @@ public class MainFrameNew extends JFrame {
             }
         }
 
-        for(Category category : Main.getHardwareStore().getCategoryList()){
+        for(Category category : Main.getMainStore().getCategoryList()){
             if(!finished){
                 if(category.getCategoryName().contains(selectedItem)){
                     category.setDiscount(input);
@@ -356,7 +361,7 @@ public class MainFrameNew extends JFrame {
     private void discount_listValueChanged(ListSelectionEvent e) {
         boolean finished = false;
 
-        for(Area area : Main.getHardwareStore().getAreaList()){
+        for(Area area : Main.getMainStore().getAreaList()){
             if(!finished){
                 discount_input.setText(area.getDiscount() + "");
                 finished = true;
@@ -365,7 +370,7 @@ public class MainFrameNew extends JFrame {
             }
         }
 
-        for(Category category : Main.getHardwareStore().getCategoryList()){
+        for(Category category : Main.getMainStore().getCategoryList()){
             if(!finished){
                 discount_input.setText(category.getDiscount() + "");
                 finished = true;
@@ -376,14 +381,17 @@ public class MainFrameNew extends JFrame {
     }
 
     private void total_stock_priceActionPerformed(ActionEvent e) {
-        total_stock_price_change.setText(Main.getHardwareStore().totalStockPrice() + "€");
+        total_stock_price_change.setText(Main.getMainStore().totalStockPrice() + "€");
+        total_stock_dialog.setIconImage(new ImageIcon("C:\\Users\\legri\\Documents\\BauMarkt\\ressources\\BAC_transparent.png").getImage());
         total_stock_dialog.setVisible(true);
     }
 
     private void highest_area_priceActionPerformed(ActionEvent e) {
-        area_total_highest_price_change.setText(Main.getHardwareStore().areaHighestTotalPrice().getAreaName() +
-                " | Price: " + Main.getHardwareStore().areaHighestTotalPrice().getTotalPrice());
+        Area highestPrice = Main.getMainStore().areaHighestTotalPrice();
+        area_total_highest_price_change.setText(highestPrice.getAreaName() +
+                " | Price: " + highestPrice.getTotalPrice());
 
+        area_total_highest_price_dialog.setIconImage(new ImageIcon("C:\\Users\\legri\\Documents\\BauMarkt\\ressources\\BAC_transparent.png").getImage());
         area_total_highest_price_dialog.setVisible(true);
     }
 
@@ -403,8 +411,8 @@ public class MainFrameNew extends JFrame {
         area_total_highest_price = new JMenuItem();
         reset = new JMenuItem();
         scrollPane1 = new JScrollPane();
-                            for(int i = 0; i < Main.getHardwareStore().getHardwareStoreMap().size(); i++){
-                                    Furniture furniture = Main.getHardwareStore().getHardwareStoreMap().get(i+1);
+                            for(int i = 0; i < Main.getMainStore().getHardwareStoreMap().size(); i++){
+                                    Furniture furniture = Main.getMainStore().getHardwareStoreMap().get(i+1);
                                     listModel.addElement(furniture.getName());
                             }
         product_list = new JList(listModel);
@@ -485,7 +493,7 @@ public class MainFrameNew extends JFrame {
             //======== Area ========
             {
                 Area.setText("Area");
-                        for(de.legrinu.classes.Area area : Main.getHardwareStore().getAreaList()){
+                        for(de.legrinu.classes.Area area : Main.getMainStore().getAreaList()){
                             JCheckBoxMenuItem checkBoxMenuItem = new JCheckBoxMenuItem(area.getAreaName());
                             checkBoxMenuItem.addActionListener(this::CategoryAreaActionPerformed);
                             Area.add(checkBoxMenuItem);
@@ -496,7 +504,7 @@ public class MainFrameNew extends JFrame {
             //======== Category ========
             {
                 Category.setText("Category");
-                for(de.legrinu.classes.Category category : Main.getHardwareStore().getCategoryList()){
+                for(de.legrinu.classes.Category category : Main.getMainStore().getCategoryList()){
                             JCheckBoxMenuItem checkBoxMenuItem = new JCheckBoxMenuItem(category.getCategoryName());
                             checkBoxMenuItem.addActionListener(this::CategoryAreaActionPerformed);
                             Category.add(checkBoxMenuItem);

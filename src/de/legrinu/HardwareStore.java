@@ -12,8 +12,10 @@ public class HardwareStore {
     private static HashMap<Integer, Furniture> hardwareStoreMap = new HashMap<>();
     private static ArrayList<Area> areaList = new ArrayList<>();
     private static ArrayList<Category> categoryList = new ArrayList<>();
+    private static String name;
 
-    public HardwareStore(){
+    public HardwareStore(String pName){
+        this.name = pName;
     }
 
     public double totalStockPrice(){
@@ -216,5 +218,13 @@ public class HardwareStore {
 
     public void setCategoryList(ArrayList<Category> categoryList) {
         HardwareStore.categoryList = categoryList;
+    }
+
+    public static String getName() {
+        return name;
+    }
+
+    public static void setName(String name) {
+        HardwareStore.name = name;
     }
 }

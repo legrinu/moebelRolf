@@ -14,7 +14,7 @@ public class MainFrame extends JFrame implements ActionListener {
     private JPanel panel;
     private String[] activities;
     private JLabel label;
-    private static HardwareStore hardwareStore = Main.getHardwareStore();
+    private static HardwareStore hardwareStore = Main.getMainStore();
 
     public MainFrame(){
 

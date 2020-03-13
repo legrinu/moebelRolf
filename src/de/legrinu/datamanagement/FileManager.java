@@ -20,7 +20,7 @@ public class FileManager {
     private BufferedReader bufferedReader;
     private FileWriter fileWriter;
     private BufferedWriter bufferedWriter;
-    private HardwareStore hardwareStore = Main.getHardwareStore();
+    private HardwareStore hardwareStore = Main.getMainStore();
 
     public static void checkFile(File file){
         if(!file.exists()){
