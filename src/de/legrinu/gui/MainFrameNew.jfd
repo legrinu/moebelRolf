@@ -17,7 +17,7 @@ new FormModel {
 				add( new FormComponent( "javax.swing.JList" ) {
 					name: "product_list"
 					auxiliary() {
-						"JavaCodeGenerator.preCreateCode": "                    for(int i = 0; i < Main.getHardwareStore().getHardwareStoreMap().size(); i++){\n                            Furniture furniture = Main.getHardwareStore().getHardwareStoreMap().get(i+1);\n                            listModel.addElement(furniture.getName());\n                    }"
+						"JavaCodeGenerator.preCreateCode": "for(int i = 0; i < Main.getMainStore().getHardwareStoreMap().size(); i++){\n                                    Furniture furniture = Main.getMainStore().getHardwareStoreMap().get(i+1);\n                                    listModel.addElement(furniture.getName());\n                            }"
 						"JavaCodeGenerator.customCreateCode": "new JList(listModel);"
 						"JavaCodeGenerator.preInitCode": "product_list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);"
 					}
@@ -117,15 +117,34 @@ new FormModel {
 					name: "Area"
 					"text": "Area"
 					auxiliary() {
-						"JavaCodeGenerator.postInitCode": "        for(de.legrinu.classes.Area area : Main.getHardwareStore().getAreaList()){\n            JCheckBoxMenuItem checkBoxMenuItem = new JCheckBoxMenuItem(area.getAreaName());\n            checkBoxMenuItem.addActionListener(this::CategoryAreaActionPerformed);\n            Area.add(checkBoxMenuItem);\n        }"
+						"JavaCodeGenerator.postInitCode": "for(de.legrinu.classes.Area area : Main.getMainStore().getAreaList()){\n                            JCheckBoxMenuItem checkBoxMenuItem = new JCheckBoxMenuItem(area.getAreaName());\n                            checkBoxMenuItem.addActionListener(this::CategoryAreaActionPerformed);\n                            Area.add(checkBoxMenuItem);\n                        }"
 					}
 				} )
 				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
 					name: "Category"
 					"text": "Category"
 					auxiliary() {
-						"JavaCodeGenerator.postInitCode": "for(de.legrinu.classes.Category category : Main.getHardwareStore().getCategoryList()){\n\t\t\tJCheckBoxMenuItem checkBoxMenuItem = new JCheckBoxMenuItem(category.getCategoryName());\n            checkBoxMenuItem.addActionListener(this::CategoryAreaActionPerformed);\n            Category.add(checkBoxMenuItem);\n        }"
+						"JavaCodeGenerator.postInitCode": "for(de.legrinu.classes.Category category : Main.getMainStore().getCategoryList()){\n\t\t\tJCheckBoxMenuItem checkBoxMenuItem = new JCheckBoxMenuItem(category.getCategoryName());\n            checkBoxMenuItem.addActionListener(this::CategoryAreaActionPerformed);\n            Category.add(checkBoxMenuItem);\n        }"
 					}
+				} )
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "new_create"
+					"text": "New"
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "create_furniture"
+						"text": "Furniture"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "create_furnitureActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "create_area"
+						"text": "Area"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "create_areaActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "create_category"
+						"text": "Category"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "create_categoryActionPerformed", true ) )
+					} )
 				} )
 				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
 					name: "etc"
@@ -303,6 +322,121 @@ new FormModel {
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 370, 525 )
 			"size": new java.awt.Dimension( 340, 105 )
+		} )
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq {par l {seq {space :::p, par l {seq l {comp new_area_solid_name:::p::p, space :::p, comp new_area_name:::p::p}, seq l {comp new_area_solid_discount:::p::p, space :::p, comp new_area_discount:::p::p}}}, seq l {space :p:33:p, comp new_area_create_button:::p::p}}, space ::15:x}}"
+			"$verticalGroup": "par l {seq l {space :p:15:p, par b {comp new_area_solid_name::b:p::p, comp new_area_name::b:p::p}, space u:::p, par b {comp new_area_solid_discount::b:p::p, comp new_area_discount::b:p::p}, space s:::p, comp new_area_create_button:::p::p, space ::3:x}}"
+		} ) {
+			name: "new_area"
+			"title": "Create new area"
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "new_area_solid_name"
+				"text": "Name:"
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "new_area_name"
+				"text": "NAME"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "new_area_solid_discount"
+				"text": "Discount:"
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "new_area_discount"
+				"text": "DISCOUNT"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "new_area_create_button"
+				"text": "Create"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "new_area_create_buttonActionPerformed", true ) )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 10, 650 )
+			"size": new java.awt.Dimension( 155, 170 )
+		} )
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq {par l {seq {space :::p, par l {seq l {comp new_category_solid_name:::p::p, space :::p, comp new_category_name:::p::p}, seq l {comp new_category_solid_discount:::p::p, space :::p, comp new_category_discount:::p::p}}}, seq l {space :p:33:p, comp new_category_create_button:::p::p}}, space ::50:x}}"
+			"$verticalGroup": "par l {seq l {space :p:15:p, par b {comp new_category_solid_name::b:p::p, comp new_category_name::b:p::p}, space u:::p, par b {comp new_category_solid_discount::b:p::p, comp new_category_discount::b:p::p}, space s:::p, comp new_category_create_button:::p::p, space ::3:x}}"
+		} ) {
+			name: "new_category"
+			"title": "Create new Category"
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "new_category_solid_name"
+				"text": "Name:"
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "new_category_name"
+				"text": "NAME"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "new_category_solid_discount"
+				"text": "Discount:"
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "new_category_discount"
+				"text": "DISCOUNT"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "new_category_create_button"
+				"text": "Create"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "new_category_create_buttonActionPerformed", true ) )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 190, 170 )
+			"location": new java.awt.Point( 195, 650 )
+		} )
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq t {space :::p, par t {seq l {comp new_furniture_solid_name:::p::p, space :::p, comp new_furniture_name:::p::p, space ::69:x, comp new_furniture_solid_area:::p::p}, seq l {comp new_furniture_solid_price:::p::p, space u:::p, comp new_furniture_price:::p::p, space ::46:x, comp new_furniture_solid_category:::p::p}}, space :::p, par l {comp new_furniture_area_combobox:::p::p, comp new_furniture_category_combobox:::p::p}, space :p:18:p}, seq {par l {seq l {space :p:111:p, comp new_furniture_create_button:::p::p}, seq l {space :::p, comp new_furniture_solid_stock:::p::p, space :::p, comp new_furniture_stock:::p::p}}, space ::134:x}}"
+			"$verticalGroup": "par l {seq l {space :p:12:p, par b {comp new_furniture_solid_name::b:p::p, comp new_furniture_name::b:p::p, comp new_furniture_solid_area::b:p::p, comp new_furniture_area_combobox::b:p::p}, space u:::p, par b {comp new_furniture_solid_price::b:p::p, comp new_furniture_price::b:p::p, comp new_furniture_solid_category::b:p::p, comp new_furniture_category_combobox::b:p::p}, space u:::p, par b {comp new_furniture_solid_stock::b:p::p, comp new_furniture_stock::b:p::p}, space ::12:x, comp new_furniture_create_button:::p::p, space :p:25:p}}"
+		} ) {
+			name: "new_furniture"
+			"title": "Create new Furniture"
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "new_furniture_solid_name"
+				"text": "Name:"
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "new_furniture_name"
+				"text": "NAME"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "new_furniture_solid_price"
+				"text": "Price:"
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "new_furniture_price"
+				"text": "PRICE"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "new_furniture_solid_area"
+				"text": "Area:"
+			} )
+			add( new FormComponent( "javax.swing.JComboBox" ) {
+				name: "new_furniture_area_combobox"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "new_furniture_solid_category"
+				"text": "Category:"
+			} )
+			add( new FormComponent( "javax.swing.JComboBox" ) {
+				name: "new_furniture_category_combobox"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "new_furniture_create_button"
+				"text": "Create"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "new_furniture_create_buttonActionPerformed", true ) )
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "new_furniture_solid_stock"
+				"text": "Stock:"
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "new_furniture_stock"
+				"text": "STOCK"
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 410, 645 )
+			"size": new java.awt.Dimension( 325, 225 )
 		} )
 	}
 }

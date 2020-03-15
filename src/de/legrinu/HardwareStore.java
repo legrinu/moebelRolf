@@ -220,11 +220,29 @@ public class HardwareStore {
         HardwareStore.categoryList = categoryList;
     }
 
-    public static String getName() {
+    public String getName() {
         return name;
     }
 
-    public static void setName(String name) {
+    public void setName(String name) {
         HardwareStore.name = name;
+    }
+
+    public Area getAreaByString(String pInput){
+        for(Area area : getAreaList()){
+            if(area.getAreaName().contains(pInput)){
+                return area;
+            }
+        }
+        return null;
+    }
+
+    public Category getCategoryByString(String pInput){
+        for(Category category : getCategoryList()){
+            if(category.getCategoryName().contains(pInput)){
+                return category;
+            }
+        }
+        return null;
     }
 }

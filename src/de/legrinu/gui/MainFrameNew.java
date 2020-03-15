@@ -15,6 +15,7 @@ import de.legrinu.classes.Furniture;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import javax.swing.*;
 import javax.swing.GroupLayout;
@@ -395,6 +396,70 @@ public class MainFrameNew extends JFrame {
         area_total_highest_price_dialog.setVisible(true);
     }
 
+    private void new_area_create_buttonActionPerformed(ActionEvent e) {
+        String name = new_area_name.getText();
+        Double discount = Double.parseDouble(new_area_discount.getText());
+        ArrayList<Area> areaArrayList = Main.getMainStore().getAreaList();
+
+        areaArrayList.add(new Area(name, discount));
+        Main.getMainStore().setAreaList(areaArrayList);
+
+        JCheckBoxMenuItem checkBoxMenuItem = new JCheckBoxMenuItem(name);
+        checkBoxMenuItem.addActionListener(this::CategoryAreaActionPerformed);
+        Area.add(checkBoxMenuItem);
+    }
+
+    private void create_areaActionPerformed(ActionEvent e) {
+        new_area.setIconImage(new ImageIcon("C:\\Users\\legri\\Documents\\BauMarkt\\ressources\\BAC_transparent.png").getImage());
+        new_area.setVisible(true);
+    }
+
+    private void new_category_create_buttonActionPerformed(ActionEvent e) {
+        String name = new_category_name.getText();
+        Double discount = Double.parseDouble(new_category_discount.getText());
+        ArrayList<Category> categoryArrayList = Main.getMainStore().getCategoryList();
+
+        categoryArrayList.add(new Category(name, discount));
+        Main.getMainStore().setCategoryList(categoryArrayList);
+
+        JCheckBoxMenuItem checkBoxMenuItem = new JCheckBoxMenuItem(name);
+        checkBoxMenuItem.addActionListener(this::CategoryAreaActionPerformed);
+        Category.add(checkBoxMenuItem);
+    }
+
+    private void create_categoryActionPerformed(ActionEvent e) {
+        new_category.setIconImage(new ImageIcon("C:\\Users\\legri\\Documents\\BauMarkt\\ressources\\BAC_transparent.png").getImage());
+        new_category.setVisible(true);
+    }
+
+    private void new_furniture_create_buttonActionPerformed(ActionEvent e) {
+        String name = new_furniture_name.getText();
+        Double price = Double.parseDouble(new_furniture_price.getText());
+        Area area = Main.getMainStore().getAreaByString((String) new_furniture_area_combobox.getSelectedItem());
+        Category category = Main.getMainStore().getCategoryByString((String) new_furniture_category_combobox.getSelectedItem());
+        int stock = Integer.valueOf(new_furniture_stock.getText());
+
+        HashMap<Integer, Furniture> furnitureHashMap = Main.getMainStore().getHardwareStoreMap();
+        furnitureHashMap.put(furnitureHashMap.size(), new Furniture(name, area, category, price, stock));
+        Main.getMainStore().setHardwareStore(furnitureHashMap);
+
+        listModel.addElement(name);
+        product_list.updateUI();
+    }
+
+    private void create_furnitureActionPerformed(ActionEvent e) {
+        for(Area area : Main.getMainStore().getAreaList()) {
+            new_furniture_area_combobox.addItem(area.getAreaName());
+        }
+
+        for(Category category : Main.getMainStore().getCategoryList()){
+            new_furniture_category_combobox.addItem(category.getCategoryName());
+        }
+        
+        new_furniture.setIconImage(new ImageIcon("C:\\Users\\legri\\Documents\\BauMarkt\\ressources\\BAC_transparent.png").getImage());
+        new_furniture.setVisible(true);
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - unknown
@@ -404,6 +469,10 @@ public class MainFrameNew extends JFrame {
         write = new JMenuItem();
         Area = new JMenu();
         Category = new JMenu();
+        new_create = new JMenu();
+        create_furniture = new JMenuItem();
+        create_area = new JMenuItem();
+        create_category = new JMenuItem();
         etc = new JMenu();
         set_discount = new JMenuItem();
         suggested_cart = new JMenuItem();
@@ -411,10 +480,10 @@ public class MainFrameNew extends JFrame {
         area_total_highest_price = new JMenuItem();
         reset = new JMenuItem();
         scrollPane1 = new JScrollPane();
-                            for(int i = 0; i < Main.getMainStore().getHardwareStoreMap().size(); i++){
-                                    Furniture furniture = Main.getMainStore().getHardwareStoreMap().get(i+1);
-                                    listModel.addElement(furniture.getName());
-                            }
+        for(int i = 0; i < Main.getMainStore().getHardwareStoreMap().size(); i++){
+                                            Furniture furniture = Main.getMainStore().getHardwareStoreMap().get(i+1);
+                                            listModel.addElement(furniture.getName());
+                                    }
         product_list = new JList(listModel);
         product_name = new JLabel();
         product_area = new JLabel();
@@ -458,6 +527,30 @@ public class MainFrameNew extends JFrame {
         area_total_highest_price_dialog = new JDialog();
         area_total_highest_price_solid = new JLabel();
         area_total_highest_price_change = new JLabel();
+        new_area = new JDialog();
+        new_area_solid_name = new JLabel();
+        new_area_name = new JTextField();
+        new_area_solid_discount = new JLabel();
+        new_area_discount = new JTextField();
+        new_area_create_button = new JButton();
+        new_category = new JDialog();
+        new_category_solid_name = new JLabel();
+        new_category_name = new JTextField();
+        new_category_solid_discount = new JLabel();
+        new_category_discount = new JTextField();
+        new_category_create_button = new JButton();
+        new_furniture = new JDialog();
+        new_furniture_solid_name = new JLabel();
+        new_furniture_name = new JTextField();
+        new_furniture_solid_price = new JLabel();
+        new_furniture_price = new JTextField();
+        new_furniture_solid_area = new JLabel();
+        new_furniture_area_combobox = new JComboBox();
+        new_furniture_solid_category = new JLabel();
+        new_furniture_category_combobox = new JComboBox();
+        new_furniture_create_button = new JButton();
+        new_furniture_solid_stock = new JLabel();
+        new_furniture_stock = new JTextField();
 
         //======== this ========
         setTitle("HSMS by BACreations");
@@ -493,11 +586,11 @@ public class MainFrameNew extends JFrame {
             //======== Area ========
             {
                 Area.setText("Area");
-                        for(de.legrinu.classes.Area area : Main.getMainStore().getAreaList()){
-                            JCheckBoxMenuItem checkBoxMenuItem = new JCheckBoxMenuItem(area.getAreaName());
-                            checkBoxMenuItem.addActionListener(this::CategoryAreaActionPerformed);
-                            Area.add(checkBoxMenuItem);
-                        }
+                for(de.legrinu.classes.Area area : Main.getMainStore().getAreaList()){
+                                            JCheckBoxMenuItem checkBoxMenuItem = new JCheckBoxMenuItem(area.getAreaName());
+                                            checkBoxMenuItem.addActionListener(this::CategoryAreaActionPerformed);
+                                            Area.add(checkBoxMenuItem);
+                                        }
             }
             menuBar.add(Area);
 
@@ -511,6 +604,27 @@ public class MainFrameNew extends JFrame {
                         }
             }
             menuBar.add(Category);
+
+            //======== new_create ========
+            {
+                new_create.setText("New");
+
+                //---- create_furniture ----
+                create_furniture.setText("Furniture");
+                create_furniture.addActionListener(e -> create_furnitureActionPerformed(e));
+                new_create.add(create_furniture);
+
+                //---- create_area ----
+                create_area.setText("Area");
+                create_area.addActionListener(e -> create_areaActionPerformed(e));
+                new_create.add(create_area);
+
+                //---- create_category ----
+                create_category.setText("Category");
+                create_category.addActionListener(e -> create_categoryActionPerformed(e));
+                new_create.add(create_category);
+            }
+            menuBar.add(new_create);
 
             //======== etc ========
             {
@@ -966,6 +1080,226 @@ public class MainFrameNew extends JFrame {
             area_total_highest_price_dialog.pack();
             area_total_highest_price_dialog.setLocationRelativeTo(area_total_highest_price_dialog.getOwner());
         }
+
+        //======== new_area ========
+        {
+            new_area.setTitle("Create new area");
+            var new_areaContentPane = new_area.getContentPane();
+
+            //---- new_area_solid_name ----
+            new_area_solid_name.setText("Name:");
+
+            //---- new_area_name ----
+            new_area_name.setText("NAME");
+
+            //---- new_area_solid_discount ----
+            new_area_solid_discount.setText("Discount:");
+
+            //---- new_area_discount ----
+            new_area_discount.setText("DISCOUNT");
+
+            //---- new_area_create_button ----
+            new_area_create_button.setText("Create");
+            new_area_create_button.addActionListener(e -> new_area_create_buttonActionPerformed(e));
+
+            GroupLayout new_areaContentPaneLayout = new GroupLayout(new_areaContentPane);
+            new_areaContentPane.setLayout(new_areaContentPaneLayout);
+            new_areaContentPaneLayout.setHorizontalGroup(
+                new_areaContentPaneLayout.createParallelGroup()
+                    .addGroup(new_areaContentPaneLayout.createSequentialGroup()
+                        .addGroup(new_areaContentPaneLayout.createParallelGroup()
+                            .addGroup(new_areaContentPaneLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(new_areaContentPaneLayout.createParallelGroup()
+                                    .addGroup(new_areaContentPaneLayout.createSequentialGroup()
+                                        .addComponent(new_area_solid_name)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(new_area_name, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(new_areaContentPaneLayout.createSequentialGroup()
+                                        .addComponent(new_area_solid_discount)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(new_area_discount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(new_areaContentPaneLayout.createSequentialGroup()
+                                .addGap(33, 33, 33)
+                                .addComponent(new_area_create_button)))
+                        .addContainerGap(15, Short.MAX_VALUE))
+            );
+            new_areaContentPaneLayout.setVerticalGroup(
+                new_areaContentPaneLayout.createParallelGroup()
+                    .addGroup(new_areaContentPaneLayout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addGroup(new_areaContentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(new_area_solid_name)
+                            .addComponent(new_area_name, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(new_areaContentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(new_area_solid_discount)
+                            .addComponent(new_area_discount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(new_area_create_button)
+                        .addContainerGap(3, Short.MAX_VALUE))
+            );
+            new_area.pack();
+            new_area.setLocationRelativeTo(new_area.getOwner());
+        }
+
+        //======== new_category ========
+        {
+            new_category.setTitle("Create new Category");
+            var new_categoryContentPane = new_category.getContentPane();
+
+            //---- new_category_solid_name ----
+            new_category_solid_name.setText("Name:");
+
+            //---- new_category_name ----
+            new_category_name.setText("NAME");
+
+            //---- new_category_solid_discount ----
+            new_category_solid_discount.setText("Discount:");
+
+            //---- new_category_discount ----
+            new_category_discount.setText("DISCOUNT");
+
+            //---- new_category_create_button ----
+            new_category_create_button.setText("Create");
+            new_category_create_button.addActionListener(e -> new_category_create_buttonActionPerformed(e));
+
+            GroupLayout new_categoryContentPaneLayout = new GroupLayout(new_categoryContentPane);
+            new_categoryContentPane.setLayout(new_categoryContentPaneLayout);
+            new_categoryContentPaneLayout.setHorizontalGroup(
+                new_categoryContentPaneLayout.createParallelGroup()
+                    .addGroup(new_categoryContentPaneLayout.createSequentialGroup()
+                        .addGroup(new_categoryContentPaneLayout.createParallelGroup()
+                            .addGroup(new_categoryContentPaneLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(new_categoryContentPaneLayout.createParallelGroup()
+                                    .addGroup(new_categoryContentPaneLayout.createSequentialGroup()
+                                        .addComponent(new_category_solid_name)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(new_category_name, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(new_categoryContentPaneLayout.createSequentialGroup()
+                                        .addComponent(new_category_solid_discount)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(new_category_discount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(new_categoryContentPaneLayout.createSequentialGroup()
+                                .addGap(33, 33, 33)
+                                .addComponent(new_category_create_button)))
+                        .addContainerGap(50, Short.MAX_VALUE))
+            );
+            new_categoryContentPaneLayout.setVerticalGroup(
+                new_categoryContentPaneLayout.createParallelGroup()
+                    .addGroup(new_categoryContentPaneLayout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addGroup(new_categoryContentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(new_category_solid_name)
+                            .addComponent(new_category_name, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(new_categoryContentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(new_category_solid_discount)
+                            .addComponent(new_category_discount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(new_category_create_button)
+                        .addContainerGap(3, Short.MAX_VALUE))
+            );
+            new_category.pack();
+            new_category.setLocationRelativeTo(new_category.getOwner());
+        }
+
+        //======== new_furniture ========
+        {
+            new_furniture.setTitle("Create new Furniture");
+            var new_furnitureContentPane = new_furniture.getContentPane();
+
+            //---- new_furniture_solid_name ----
+            new_furniture_solid_name.setText("Name:");
+
+            //---- new_furniture_name ----
+            new_furniture_name.setText("NAME");
+
+            //---- new_furniture_solid_price ----
+            new_furniture_solid_price.setText("Price:");
+
+            //---- new_furniture_price ----
+            new_furniture_price.setText("PRICE");
+
+            //---- new_furniture_solid_area ----
+            new_furniture_solid_area.setText("Area:");
+
+            //---- new_furniture_solid_category ----
+            new_furniture_solid_category.setText("Category:");
+
+            //---- new_furniture_create_button ----
+            new_furniture_create_button.setText("Create");
+            new_furniture_create_button.addActionListener(e -> new_furniture_create_buttonActionPerformed(e));
+
+            //---- new_furniture_solid_stock ----
+            new_furniture_solid_stock.setText("Stock:");
+
+            //---- new_furniture_stock ----
+            new_furniture_stock.setText("STOCK");
+
+            GroupLayout new_furnitureContentPaneLayout = new GroupLayout(new_furnitureContentPane);
+            new_furnitureContentPane.setLayout(new_furnitureContentPaneLayout);
+            new_furnitureContentPaneLayout.setHorizontalGroup(
+                new_furnitureContentPaneLayout.createParallelGroup()
+                    .addGroup(GroupLayout.Alignment.TRAILING, new_furnitureContentPaneLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(new_furnitureContentPaneLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                            .addGroup(GroupLayout.Alignment.LEADING, new_furnitureContentPaneLayout.createSequentialGroup()
+                                .addComponent(new_furniture_solid_name)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(new_furniture_name, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
+                                .addComponent(new_furniture_solid_area))
+                            .addGroup(GroupLayout.Alignment.LEADING, new_furnitureContentPaneLayout.createSequentialGroup()
+                                .addComponent(new_furniture_solid_price)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(new_furniture_price, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                                .addComponent(new_furniture_solid_category)))
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(new_furnitureContentPaneLayout.createParallelGroup()
+                            .addComponent(new_furniture_area_combobox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                            .addComponent(new_furniture_category_combobox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18))
+                    .addGroup(new_furnitureContentPaneLayout.createSequentialGroup()
+                        .addGroup(new_furnitureContentPaneLayout.createParallelGroup()
+                            .addGroup(new_furnitureContentPaneLayout.createSequentialGroup()
+                                .addGap(111, 111, 111)
+                                .addComponent(new_furniture_create_button))
+                            .addGroup(new_furnitureContentPaneLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(new_furniture_solid_stock)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(new_furniture_stock, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(134, Short.MAX_VALUE))
+            );
+            new_furnitureContentPaneLayout.setVerticalGroup(
+                new_furnitureContentPaneLayout.createParallelGroup()
+                    .addGroup(new_furnitureContentPaneLayout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addGroup(new_furnitureContentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(new_furniture_solid_name)
+                            .addComponent(new_furniture_name, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                            .addComponent(new_furniture_solid_area)
+                            .addComponent(new_furniture_area_combobox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(new_furnitureContentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(new_furniture_solid_price)
+                            .addComponent(new_furniture_price, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                            .addComponent(new_furniture_solid_category)
+                            .addComponent(new_furniture_category_combobox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(new_furnitureContentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(new_furniture_solid_stock)
+                            .addComponent(new_furniture_stock, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                        .addComponent(new_furniture_create_button)
+                        .addGap(25, 25, 25))
+            );
+            new_furniture.pack();
+            new_furniture.setLocationRelativeTo(new_furniture.getOwner());
+        }
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 
@@ -977,6 +1311,10 @@ public class MainFrameNew extends JFrame {
     private JMenuItem write;
     private JMenu Area;
     private JMenu Category;
+    private JMenu new_create;
+    private JMenuItem create_furniture;
+    private JMenuItem create_area;
+    private JMenuItem create_category;
     private JMenu etc;
     private JMenuItem set_discount;
     private JMenuItem suggested_cart;
@@ -1027,6 +1365,30 @@ public class MainFrameNew extends JFrame {
     private JDialog area_total_highest_price_dialog;
     private JLabel area_total_highest_price_solid;
     private JLabel area_total_highest_price_change;
+    private JDialog new_area;
+    private JLabel new_area_solid_name;
+    private JTextField new_area_name;
+    private JLabel new_area_solid_discount;
+    private JTextField new_area_discount;
+    private JButton new_area_create_button;
+    private JDialog new_category;
+    private JLabel new_category_solid_name;
+    private JTextField new_category_name;
+    private JLabel new_category_solid_discount;
+    private JTextField new_category_discount;
+    private JButton new_category_create_button;
+    private JDialog new_furniture;
+    private JLabel new_furniture_solid_name;
+    private JTextField new_furniture_name;
+    private JLabel new_furniture_solid_price;
+    private JTextField new_furniture_price;
+    private JLabel new_furniture_solid_area;
+    private JComboBox new_furniture_area_combobox;
+    private JLabel new_furniture_solid_category;
+    private JComboBox new_furniture_category_combobox;
+    private JButton new_furniture_create_button;
+    private JLabel new_furniture_solid_stock;
+    private JTextField new_furniture_stock;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 
 

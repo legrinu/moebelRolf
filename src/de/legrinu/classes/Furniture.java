@@ -10,6 +10,14 @@ public class Furniture implements Comparable{
     private double originalPrice;
     private int stock;
 
+    /**
+     *
+     * @param pName - The Name of the Furniture
+     * @param pArea - The Area of the Furniture (For the program to work this area needs to be added in the arraylist)
+     * @param pCategory - The Category of the Furniture (For the program to work this category needs to be added in the arraylist)
+     * @param pOriginalPrice - The Original Price (Without Discount) of the Furniture
+     * @param pStock - The Stock of the Furniture
+     */
     public Furniture(String pName, Area pArea, Category pCategory, double pOriginalPrice, int pStock){
         this.name = pName;
         this.area = pArea;
@@ -17,6 +25,7 @@ public class Furniture implements Comparable{
         this.originalPrice = pOriginalPrice;
         this.stock = pStock;
     }
+
 
     public Area getArea(){
         return this.area;
@@ -30,6 +39,10 @@ public class Furniture implements Comparable{
         return this.originalPrice;
     }
 
+    /**
+     * Returns the original price times the highest discount
+     * @return
+     */
     public double getDiscountPrice(){
         double discountPrice = this.getOriginalPrice();
 
