@@ -50,9 +50,9 @@ public class HardwareStore {
     }
 
     public Area areaHighestTotalPrice(){
-        for(Map.Entry<Integer, Furniture> entry : hardwareStoreMap.entrySet()) {
-            Furniture furniture = entry.getValue();
-            furniture.getArea().setTotalPrice(furniture.getArea().getTotalPrice() + furniture.getDiscountStockPrice());
+        
+        for(Area area : this.getAreaList()){
+            area.setTotalPrice(totalAreaPrice(area));
         }
 
         Area totalHighestPrice = null;

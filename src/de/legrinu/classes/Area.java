@@ -18,10 +18,6 @@ public class Area extends Groups{
         this.area = pArea;
     }
 
-    public void resetTotalPrice(){
-        totalPrice = 0;
-    }
-
     public double getTotalPrice() {
         return MathUtils.round(totalPrice, 2);
     }
