@@ -48,7 +48,7 @@ public class Furniture implements Comparable{
 
         if(this.getArea().getDiscount() >= this.getCategory().getDiscount()){
             discountPrice = discountPrice * (1 - this.getArea().getDiscount());
-        }else if(this.getArea().getDiscount() > this.getCategory().getDiscount()){
+        }else if(this.getArea().getDiscount() < this.getCategory().getDiscount()){
             discountPrice = discountPrice * (1 - this.getCategory().getDiscount());
         }
 
