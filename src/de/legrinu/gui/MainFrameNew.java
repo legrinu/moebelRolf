@@ -361,22 +361,37 @@ public class MainFrameNew extends JFrame {
 
     private void discount_listValueChanged(ListSelectionEvent e) {
         boolean finished = false;
+        String selectedItem = (String) discount_list.getSelectedValue();
 
         for(Area area : Main.getMainStore().getAreaList()){
-            if(!finished){
-                discount_input.setText(area.getDiscount() + "");
+            if(selectedItem != null) {
+                if (area.getAreaName().contains(selectedItem)) {
+                    if (!finished) {
+                        discount_input.setText(area.getDiscount() + "");
+                        finished = true;
+                    } else {
+                        return;
+                    }
+                }
+            }else{
+                discount_input.setText("0.0");
                 finished = true;
-            }else {
-                return;
             }
         }
 
-        for(Category category : Main.getMainStore().getCategoryList()){
-            if(!finished){
-                discount_input.setText(category.getDiscount() + "");
-                finished = true;
+        for(Category category : Main.getMainStore().getCategoryList()) {
+            if(selectedItem != null) {
+                if (category.getCategoryName().contains(selectedItem)) {
+                    if (!finished) {
+                        discount_input.setText(category.getDiscount() + "");
+                        finished = true;
+                    } else {
+                        return;
+                    }
+                }
             }else{
-                return;
+                discount_input.setText("0.0");
+                finished = true;
             }
         }
     }
