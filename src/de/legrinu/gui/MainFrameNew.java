@@ -292,17 +292,20 @@ public class MainFrameNew extends JFrame {
 
     private void cart_valueActionPerformed(ActionEvent e) {
         Double input = Double.parseDouble(cart_value.getText());
-        Object[] suggestedCart = Main.getMainStore().suggestionShoppingCart(input);
-        listModel.clear();
-        for (Furniture furniture: (ArrayList<Furniture>)suggestedCart[0]) {
-            listModel.addElement(furniture.getName());
+
+        if(input >= 100 && input <= 600) {
+            listModel.clear();
+            String[] suggestedCart = Main.getMainStore().suggestionShoppingCartArray(input);
+
+            for (int i = 0; i < suggestedCart.length - 1; i++) {
+                listModel.addElement(suggestedCart[i]);
+            }
+            product_list.updateUI();
+
+            remaining_value.setText(suggestedCart[suggestedCart.length - 1]);
+            remaining_value_dialog.setIconImage(new ImageIcon("C:\\Users\\legri\\Documents\\BauMarkt\\ressources\\BAC_transparent.png").getImage());
+            remaining_value_dialog.setVisible(true);
         }
-
-        product_list.updateUI();
-
-        remaining_value.setText("Remaining price: " + MathUtils.round((Double) suggestedCart[1], 2));
-        remaining_value_dialog.setIconImage(new ImageIcon("C:\\Users\\legri\\Documents\\BauMarkt\\ressources\\BAC_transparent.png").getImage());
-        remaining_value_dialog.setVisible(true);
     }
 
     private void suggested_cartActionPerformed(ActionEvent e) {
@@ -450,8 +453,8 @@ public class MainFrameNew extends JFrame {
     private void new_furniture_create_buttonActionPerformed(ActionEvent e) {
         String name = new_furniture_name.getText();
         Double price = Double.parseDouble(new_furniture_price.getText());
-        Area area = Main.getMainStore().getAreaFromString((String) new_furniture_area_combobox.getSelectedItem());
-        Category category = Main.getMainStore().getCategoryFromString((String) new_furniture_category_combobox.getSelectedItem());
+        Area area = Main.getMainStore().getAreaByString((String) new_furniture_area_combobox.getSelectedItem());
+        Category category = Main.getMainStore().getCategoryByString((String) new_furniture_category_combobox.getSelectedItem());
         int stock = Integer.valueOf(new_furniture_stock.getText());
 
         HashMap<Integer, Furniture> furnitureHashMap = Main.getMainStore().getHardwareStoreMap();
@@ -723,7 +726,7 @@ public class MainFrameNew extends JFrame {
         dateLabel.setText("Alea iacta est");
         dateLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 
-                dateLabel.setText("" + java.time.LocalDate.now());
+                dateLabel.setText("" + java.time.LocalDate.now() + "   ");
 
         //---- selected_area_price ----
         selected_area_price.setText("0\u20ac");
@@ -738,14 +741,14 @@ public class MainFrameNew extends JFrame {
         contentPaneLayout.setHorizontalGroup(
             contentPaneLayout.createParallelGroup()
                 .addGroup(contentPaneLayout.createSequentialGroup()
-                    .addComponent(footer, GroupLayout.PREFERRED_SIZE, 217, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(footer, GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(dateLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(contentPaneLayout.createSequentialGroup()
                     .addGap(17, 17, 17)
                     .addGroup(contentPaneLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
                         .addComponent(price_selected_area)
-                        .addComponent(scrollPane1, GroupLayout.PREFERRED_SIZE, 137, GroupLayout.PREFERRED_SIZE))
+                        .addComponent(scrollPane1, GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE))
                     .addGroup(contentPaneLayout.createParallelGroup()
                         .addGroup(GroupLayout.Alignment.TRAILING, contentPaneLayout.createSequentialGroup()
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -755,31 +758,31 @@ public class MainFrameNew extends JFrame {
                                 .addGroup(contentPaneLayout.createSequentialGroup()
                                     .addComponent(product_stock, GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
                                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(s_changer))
+                                    .addComponent(s_changer, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGroup(contentPaneLayout.createSequentialGroup()
                                     .addComponent(discount_price, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(dp_changer))
+                                    .addComponent(dp_changer, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGroup(contentPaneLayout.createSequentialGroup()
-                                    .addComponent(original_price)
+                                    .addComponent(original_price, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(op_changer)))
+                                    .addComponent(op_changer, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGap(59, 59, 59))
                         .addGroup(contentPaneLayout.createSequentialGroup()
                             .addGroup(contentPaneLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
                                 .addGroup(contentPaneLayout.createSequentialGroup()
                                     .addGap(29, 29, 29)
-                                    .addComponent(change_stock)
+                                    .addComponent(change_stock, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGap(18, 18, 18)
-                                    .addComponent(change_price))
+                                    .addComponent(change_price, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGroup(contentPaneLayout.createSequentialGroup()
                                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(selected_area_price, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(selected_area_price, GroupLayout.DEFAULT_SIZE, 1, Short.MAX_VALUE)
                                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(price_selected_category)
                                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(selected_category_price, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)))
-                            .addContainerGap(28, Short.MAX_VALUE))))
+                                    .addComponent(selected_category_price, GroupLayout.DEFAULT_SIZE, 1, Short.MAX_VALUE)))
+                            .addContainerGap(64, Short.MAX_VALUE))))
         );
         contentPaneLayout.setVerticalGroup(
             contentPaneLayout.createParallelGroup()
@@ -787,36 +790,36 @@ public class MainFrameNew extends JFrame {
                     .addGap(22, 22, 22)
                     .addGroup(contentPaneLayout.createParallelGroup()
                         .addGroup(contentPaneLayout.createSequentialGroup()
-                            .addComponent(product_name)
+                            .addComponent(product_name, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(product_area)
+                            .addComponent(product_area, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGap(18, 18, 18)
                             .addGroup(contentPaneLayout.createParallelGroup()
-                                .addComponent(original_price)
-                                .addComponent(op_changer))
+                                .addComponent(original_price, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(op_changer, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(contentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                .addComponent(discount_price)
-                                .addComponent(dp_changer))
+                                .addComponent(discount_price, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(dp_changer, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(contentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                .addComponent(product_stock)
-                                .addComponent(s_changer))
+                                .addComponent(product_stock, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(s_changer, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGap(64, 64, 64)
                             .addGroup(contentPaneLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                                .addComponent(change_stock)
-                                .addComponent(change_price)))
-                        .addComponent(scrollPane1, GroupLayout.PREFERRED_SIZE, 196, GroupLayout.PREFERRED_SIZE))
+                                .addComponent(change_stock, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(change_price, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(scrollPane1, GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE))
                     .addGap(14, 14, 14)
                     .addGroup(contentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                         .addComponent(price_selected_area)
                         .addComponent(price_selected_category)
-                        .addComponent(selected_area_price)
-                        .addComponent(selected_category_price))
+                        .addComponent(selected_area_price, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(selected_category_price, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
                     .addGap(18, 18, 18)
                     .addGroup(contentPaneLayout.createParallelGroup()
-                        .addComponent(footer)
-                        .addComponent(dateLabel)))
+                        .addComponent(footer, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(dateLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         pack();
         setLocationRelativeTo(getOwner());

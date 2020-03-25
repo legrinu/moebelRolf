@@ -4,8 +4,8 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq l {comp footer:::p:217:p, space :::p, comp dateLabel:::::x}, seq l {space :p:17:p, par t {comp price_selected_area:::p::p, comp scrollPane1:::p:137:p}, par l {seq t {space :::x, par l:::p {comp product_name::::176:x, comp product_area::l::176:x, seq l {comp product_stock::::170:x, space :::p, comp s_changer:::p::p}, seq l {comp discount_price:::::x, space :::p, comp dp_changer:::p::p}, seq l {comp original_price:::p::p, space :::x, comp op_changer:::p::p}}, space :p:59:p}, seq {par l:::p {seq {space :p:29:p, comp change_stock:::p::p, space s:::p, comp change_price:::p::p}, seq {space :::p, comp selected_area_price:::p:57:p, space :::p, comp price_selected_category:::p::p, space :::p, comp selected_category_price:::p:48:p}}, space ::28:x}}}}"
-			"$verticalGroup": "par l {seq l {space :p:22:p, par l {seq {comp product_name:::p::p, space :::p, comp product_area:::p::p, space s:::p, par l {comp original_price:::p::p, comp op_changer:::p::p}, space :::p, par b {comp discount_price::b:p::p, comp dp_changer::b:p::p}, space :::p, par b {comp product_stock::b:p::p, comp s_changer::b:p::p}, space :p:64:p, par t {comp change_stock:::p::p, comp change_price:::p::p}}, comp scrollPane1:::p:196:p}, space :p:14:p, par b {comp price_selected_area::b:p::p, comp price_selected_category::b:p::p, comp selected_area_price::b:p::p, comp selected_category_price::b:p::p}, space s:::p, par l {comp footer:::p::p, comp dateLabel:::p::p}}}"
+			"$horizontalGroup": "par l {seq l {comp footer::::414:x, space :::p, comp dateLabel:::::x}, seq l {space :p:17:p, par t {comp price_selected_area:::p::p, comp scrollPane1::::171:x}, par l {seq t {space :::x, par l:::p {comp product_name::::176:x, comp product_area::l::176:x, seq l {comp product_stock::::170:x, space :::p, comp s_changer:::::x}, seq l {comp discount_price:::::x, space :::p, comp dp_changer:::::x}, seq l {comp original_price:::::x, space :::x, comp op_changer:::::x}}, space :p:59:p}, seq {par l:::p {seq {space :p:29:p, comp change_stock:::::x, space s:::p, comp change_price:::::x}, seq {space :::p, comp selected_area_price::::0:x, space :::p, comp price_selected_category:::p::p, space :::p, comp selected_category_price::::0:x}}, space ::64:x}}}}"
+			"$verticalGroup": "par l {seq l {space :p:22:p, par l {seq {comp product_name:::::x, space :::p, comp product_area:::::x, space s:::p, par l {comp original_price:::::x, comp op_changer:::::x}, space :::p, par b {comp discount_price::b:::x, comp dp_changer::b:::x}, space :::p, par b {comp product_stock::b:::x, comp s_changer::b:::x}, space :p:64:p, par t {comp change_stock:::::x, comp change_price:::::x}}, comp scrollPane1::::286:x}, space :p:14:p, par b {comp price_selected_area::b:p::p, comp price_selected_category::b:p::p, comp selected_area_price::b::0:x, comp selected_category_price::b::0:x}, space s:::p, par l {comp footer:::::x, comp dateLabel:::::x}}}"
 		} ) {
 			name: "this"
 			"title": "HSMS by BACreations"
@@ -84,7 +84,7 @@ new FormModel {
 				"text": "Alea iacta est"
 				"horizontalAlignment": 4
 				auxiliary() {
-					"JavaCodeGenerator.postInitCode": "\n        dateLabel.setText(\"\" + java.time.LocalDate.now());"
+					"JavaCodeGenerator.postInitCode": "\n        dateLabel.setText(\"\" + java.time.LocalDate.now() + \"   \");"
 				}
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
@@ -178,7 +178,7 @@ new FormModel {
 			}
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 5, 0 )
-			"size": new java.awt.Dimension( 440, 350 )
+			"size": new java.awt.Dimension( 510, 410 )
 		} )
 		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 			"$horizontalGroup": "par l {seq {space :::p, par l {seq l {comp solid_current_stock:::p::p, space :::p, comp current_stock:::p::p}, seq l {comp solid_current_furniture:::p::p, space u:::p, comp current_furniture:::p::p}}, space ::145:x}}"
@@ -202,7 +202,7 @@ new FormModel {
 				name: "current_furniture"
 			} )
 		}, new FormLayoutConstraints( null ) {
-			"location": new java.awt.Point( 0, 375 )
+			"location": new java.awt.Point( 0, 440 )
 			"size": new java.awt.Dimension( 335, 125 )
 		} )
 		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
@@ -227,7 +227,7 @@ new FormModel {
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "price_to_changeActionPerformed", true ) )
 			} )
 		}, new FormLayoutConstraints( null ) {
-			"location": new java.awt.Point( 0, 510 )
+			"location": new java.awt.Point( 5, 575 )
 			"size": new java.awt.Dimension( 335, 130 )
 		} )
 		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
@@ -246,7 +246,7 @@ new FormModel {
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cart_valueActionPerformed", true ) )
 			} )
 		}, new FormLayoutConstraints( null ) {
-			"location": new java.awt.Point( 455, 160 )
+			"location": new java.awt.Point( 720, 160 )
 			"size": new java.awt.Dimension( 170, 110 )
 		} )
 		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
@@ -260,7 +260,7 @@ new FormModel {
 				"text": "Remaining Value: 10.01"
 			} )
 		}, new FormLayoutConstraints( null ) {
-			"location": new java.awt.Point( 460, 50 )
+			"location": new java.awt.Point( 535, 165 )
 			"size": new java.awt.Dimension( 175, 100 )
 		} )
 		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
@@ -286,7 +286,7 @@ new FormModel {
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "setDiscount_buttonActionPerformed", true ) )
 			} )
 		}, new FormLayoutConstraints( null ) {
-			"location": new java.awt.Point( 470, 285 )
+			"location": new java.awt.Point( 595, 280 )
 			"size": new java.awt.Dimension( 280, 235 )
 		} )
 		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
@@ -303,7 +303,7 @@ new FormModel {
 				name: "total_stock_price_change"
 			} )
 		}, new FormLayoutConstraints( null ) {
-			"location": new java.awt.Point( 640, 50 )
+			"location": new java.awt.Point( 680, 50 )
 			"size": new java.awt.Dimension( 200, 95 )
 		} )
 		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
@@ -351,7 +351,7 @@ new FormModel {
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "new_area_create_buttonActionPerformed", true ) )
 			} )
 		}, new FormLayoutConstraints( null ) {
-			"location": new java.awt.Point( 10, 650 )
+			"location": new java.awt.Point( 5, 715 )
 			"size": new java.awt.Dimension( 155, 170 )
 		} )
 		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
@@ -383,7 +383,7 @@ new FormModel {
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"size": new java.awt.Dimension( 190, 170 )
-			"location": new java.awt.Point( 195, 650 )
+			"location": new java.awt.Point( 185, 720 )
 		} )
 		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 			"$horizontalGroup": "par l {seq t {space :::p, par t {seq l {comp new_furniture_solid_name:::p::p, space :::p, comp new_furniture_name:::p::p, space ::69:x, comp new_furniture_solid_area:::p::p}, seq l {comp new_furniture_solid_price:::p::p, space u:::p, comp new_furniture_price:::p::p, space ::46:x, comp new_furniture_solid_category:::p::p}}, space :::p, par l {comp new_furniture_area_combobox:::p::p, comp new_furniture_category_combobox:::p::p}, space :p:18:p}, seq {par l {seq l {space :p:111:p, comp new_furniture_create_button:::p::p}, seq l {space :::p, comp new_furniture_solid_stock:::p::p, space :::p, comp new_furniture_stock:::p::p}}, space ::134:x}}"
