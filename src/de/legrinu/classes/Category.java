@@ -18,7 +18,7 @@ public class Category extends Groups{
     /**
      *
      * @param pCategory Namen der Kategorie
-     * @param pDiscount Rabatt des Bereiches, als Dezemalzahl angegeben -> 10% Rabatt = 0.1
+     * @param pDiscount Rabatt des Bereiches, als Dezemalzahl angegeben 10% Rabatt = 0.1
      */
     public Category(String pCategory, double pDiscount){
         super(pDiscount);

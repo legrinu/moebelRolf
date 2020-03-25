@@ -2,6 +2,9 @@ package de.legrinu.classes;
 
 import de.legrinu.Utils.MathUtils;
 
+/**
+ * Die Klasse "Furniture" modelliert einen Moebelstueck.
+ */
 public class Furniture{
 
     private String name;
@@ -12,11 +15,11 @@ public class Furniture{
 
     /**
      *
-     * @param pName - Name des Moebelstuekes
-     * @param pArea - Bereich des Moebelstuekes
-     * @param pCategory - Kategorie des Moebelstuekes
-     * @param pOriginalPrice - Preis des Moebelstuekes ohne Rabatt
-     * @param pStock - Lagerbestand des Moebelstuekes
+     * @param pName Name des Moebelstuekes
+     * @param pArea Bereich des Moebelstuekes
+     * @param pCategory Kategorie des Moebelstuekes
+     * @param pOriginalPrice Preis des Moebelstuekes ohne Rabatt
+     * @param pStock Lagerbestand des Moebelstuekes
      */
     public Furniture(String pName, Area pArea, Category pCategory, double pOriginalPrice, int pStock){
         this.name = pName;
