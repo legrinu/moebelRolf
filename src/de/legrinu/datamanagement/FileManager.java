@@ -145,7 +145,7 @@ public class FileManager {
     //Category File Stuff
 
     /**
-     * Die Methode schreibt alle Bereiche in eine Datei.
+     * Die Methode schreibt alle Kategorien in eine Datei.
      */
     private void writeCategoryFile(){
         ArrayList<Category> categoryList = hardwareStore.getCategoryList();

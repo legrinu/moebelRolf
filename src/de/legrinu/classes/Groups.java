@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *  Diese Klasse bildet die Oberklasse und stellt Grundlage zur Verfuegung.
+ *  Diese Klasse bildet die Oberklasse und stellt Grundlagen zur Verfuegung.
  */
 public abstract class Groups {
 
@@ -19,7 +19,7 @@ public abstract class Groups {
 
     /**
      *
-     * @param pDiscount Rabatt der Gruppe, als Dezemalzahl angegeben 10% Rabatt = 0.1
+     * @param pDiscount Rabatt der Gruppe, als Dezimalzahl angegeben 10% Rabatt = 0.1
      */
     public Groups(double pDiscount){
         this.discount = pDiscount;
@@ -27,7 +27,7 @@ public abstract class Groups {
 
     /**
      * Es wird der Rabatt der Gruppe zurueckgegeben.
-     * @return Rabatt der Gruppe, als Dezemalzahl angegeben 10% Rabatt = 0.1
+     * @return Rabatt der Gruppe, als Dezimalzahl angegeben 10% Rabatt = 0.1
      */
     public double getDiscount() {
         return discount;
@@ -35,7 +35,7 @@ public abstract class Groups {
 
     /**
      * Setzt den Rabatt der Gruppe.
-     * @param discount Rabatt der Gruppe, als Dezemalzahl angegeben 10% Rabatt = 0.1, negative Werte sind Preisaufschlaege
+     * @param discount Rabatt der Gruppe, als Dezimalzahl angegeben 10% Rabatt = 0.1, negative Werte sind Preisaufschlaege
      */
     public void setDiscount(double discount) {
         this.discount = discount;

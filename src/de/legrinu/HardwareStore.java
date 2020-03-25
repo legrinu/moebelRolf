@@ -28,7 +28,7 @@ public class HardwareStore {
     }
 
     /**
-     * Berecht den Gesamt-Verkaufspreis aller Moebel im Lager.
+     * Berechnet den Gesamt-Verkaufspreis aller Moebel im Lager.
      * @return Gesamt-Verkaufspreis aller Moebel
      */
     public double totalStockPrice(){
@@ -44,7 +44,7 @@ public class HardwareStore {
     }
 
     /**
-     * Berecht den Gesamtpreis aller Moebel eines Bereichs
+     * Berechnet den Gesamtpreis aller Moebel eines Bereichs
      * @param pArea Bereich von dem der Gesamtpreis berechnet werden soll
      * @return Gesamtpreis aller Moebel eines Bereichs
      */
@@ -62,7 +62,7 @@ public class HardwareStore {
     }
 
     /**
-     * Berecht den Gesamtpreis aller Moebel einer Kategorie
+     * Berechnet den Gesamtpreis aller Moebel einer Kategorie
      * @param pCategory Kategorie von der der Gesamtpreis berechnet werden soll
      * @return Gesamtpreis aller Moebel eines Kategorie
      */
@@ -90,7 +90,7 @@ public class HardwareStore {
             //Update totalPrice of Area
             area.setTotalPrice(totalAreaPrice(area));
             //If curent area TotalPrice is higher as curent totalHighestPrice or totalHighestPrice is not defined
-            if((area.getTotalPrice() > totalHighestPrice.getTotalPrice()) || totalHighestPrice == null) {
+            if((totalHighestPrice == null) || (area.getTotalPrice() > totalHighestPrice.getTotalPrice())) {
                 totalHighestPrice = area;
             }
         }
@@ -98,9 +98,9 @@ public class HardwareStore {
     }
 
     /**
-     * Diese Methode erstellt auf Grundlage "pShoppingCartValue" eine Liste von Moeblen, die man für diesen Betrag und verfuegbar(auf Lager)sind, erhalten kann.
-     * @param pShoppingCartValue Betrag fuer die Erstellung eine Liste von Moeblen
-     * @return Array[0] - ArrayListe mit den vorzuschlagenden Moeblen, Array[1] - Differenz(Restguthaben) von "pShoppingCartValue" und dem Warenwert der vorzuschlagenden Liste
+     * Diese Methode erstellt auf Grundlage "pShoppingCartValue" eine Liste von Moebeln, die man fuer diesen Betrag und verfuegbar(auf Lager)sind, erhalten kann.
+     * @param pShoppingCartValue Betrag fuer die Erstellung eine Liste von Moebeln
+     * @return Array[0] - ArrayListe mit den vorzuschlagenden Moebeln, Array[1] - Differenz(Restguthaben) von "pShoppingCartValue" und dem Warenwert der vorzuschlagenden Liste
      */
     public Object[] suggestionShoppingCart(double pShoppingCartValue){
 
@@ -108,10 +108,10 @@ public class HardwareStore {
     }
 
     /**
-     * Diese Methode erstellt auf Grundlage "pShoppingCartValue" eine Liste von Moeblen, die man für diesen Betrag und verfuegbar(auf Lager)sind, erhalten kann.
+     * Diese Methode erstellt auf Grundlage "pShoppingCartValue" eine Liste von Moebeln, die man fuer diesen Betrag und verfuegbar(auf Lager)sind, erhalten kann.
      * @param pTempSuggestion Bisheriger vorzuschlagende Liste
-     * @param pRemainingAmount Restguthaben, der für die Erstellung der Liste zur Verfuegung steht
-     * @return Array[0] - ArrayListe mit den vorzuschlagenden Moeblen, Array[1] - Differenz(Restguthaben) von "pShoppingCartValue" und dem Warenwert der vorzuschlagenden Liste
+     * @param pRemainingAmount Restguthaben, der fuer die Erstellung der Liste zur Verfuegung steht
+     * @return Array[0] - ArrayListe mit den vorzuschlagenden Moebeln, Array[1] - Differenz(Restguthaben) von "pShoppingCartValue" und dem Warenwert der vorzuschlagenden Liste
      */
     private Object[] suggestionShoppingCart(ArrayList<Furniture> pTempSuggestion, double pRemainingAmount){
         //Add possibel furniture
@@ -173,8 +173,8 @@ public class HardwareStore {
     }
 
     /**
-     * Es wird eine Referen auf AreaList zurueckgegeben.
-     * @returnAreaList
+     * Es wird eine Referenz auf AreaList zurueckgegeben.
+     * @return AreaList
      */
     public ArrayList<Area> getAreaList() {
         return areaList;
@@ -189,7 +189,7 @@ public class HardwareStore {
     }
 
     /**
-     * Es wird eine Refernez auf CategoryList zurueckgegeben.
+     * Es wird eine Referenz auf CategoryList zurueckgegeben.
      * @return CategoryList
      */
     public ArrayList<Category> getCategoryList() {
@@ -221,7 +221,7 @@ public class HardwareStore {
     }
 
     /**
-     * Es wird eine ArrayList mit allen Moebel einer Kategorie zurueckgegeben. - Hilfsmethode für GUI
+     * Es wird eine ArrayList mit allen Moebel einer Kategorie zurueckgegeben. - Hilfsmethode fuer GUI
      * @param pCategory Kategorie von der eine ArrayList mit deren Moebeln zurueckgegeben werden soll
      * @return ArrayList einer Kategorie mit deren Moebeln
      */
@@ -240,7 +240,7 @@ public class HardwareStore {
     }
 
     /**
-     * Es wird eine ArrayList mit allen Moebel eines Bereiches zurueckgegeben. - Hilfsmethode für GUI
+     * Es wird eine ArrayList mit allen Moebel eines Bereiches zurueckgegeben. - Hilfsmethode fuer GUI
      * @param pArea Bereich von dem eine ArrayList mit deren Moebeln zurueckgegeben werden soll
      * @return ArrayList eines Bereichs mit deren Moebeln
      */

@@ -62,8 +62,8 @@ public class Furniture{
     }
 
     /**
-     * Es wird der Preis des Moebelstuekes mit Verrechnung des hoesten Rabatt zurueckgegeben.
-     * @return Preis des Moebelstuekes mit Verrechnung des hoesten Rabatt
+     * Es wird der Preis des Moebelstueckes mit Verrechnung des hoesten Rabatt zurueckgegeben.
+     * @return Preis des Moebelstueckes mit Verrechnung des hoesten Rabatt
      */
     public double getDiscountPrice(){
         double discountPrice = this.getOriginalPrice();
@@ -79,8 +79,8 @@ public class Furniture{
     }
 
     /**
-     * Es wird der Warenwert der gelagerten Moebelstueke mit Verrechnung des hoesten Rabatt zurueckgegeben.
-     * @return Warenwert der gelagerten Moebelstueke mit Verrechnung des hoesten Rabatt
+     * Es wird der Warenwert der gelagerten Moebelstuecke mit Verrechnung des hoechsten Rabatt zurueckgegeben.
+     * @return Warenwert der gelagerten Moebelstuecke mit Verrechnung des hoechsten Rabatt
      */
     public double getDiscountStockPrice(){
         double discountStockPrice = this.getDiscountPrice() * this.getStock();
@@ -89,8 +89,8 @@ public class Furniture{
     }
 
     /**
-     * Es wird der Warenwert der gelagerten Moebelstueke ohne Rabatt zurueckgegeben.
-     * @return Warenwert der gelagerten Moebelstueke ohne Rabatt
+     * Es wird der Warenwert der gelagerten Moebelstuceke ohne Rabatt zurueckgegeben.
+     * @return Warenwert der gelagerten Moebelstuecke ohne Rabatt
      */
     public double getOriginalStockPrice(){
         double stockPrice = this.getOriginalPrice() * this.getStock();
@@ -100,7 +100,7 @@ public class Furniture{
 
     /**
      * Es wird der Lagerbestand zurueckgegeben.
-     * @return Lagerbestand des Moebelstuekes
+     * @return Lagerbestand des Moebelstueckes
      */
     public int getStock() {
         return stock;
@@ -108,14 +108,14 @@ public class Furniture{
 
     /**
      * Der Lagerbestand wird auf pStock angepasst.
-     * @param pStock Lagerbestand des Moebelstuekes
+     * @param pStock Lagerbestand des Moebelstueckes
      */
     public void setStock(int pStock) {
         this.stock = pStock;
     }
 
     /**
-     * Der Name wird auf pName geandert.
+     * Der Name wird auf pName geaendert.
      * @param pName Neuer Name des Moebelstueckes
      */
     public void setName(String pName) {

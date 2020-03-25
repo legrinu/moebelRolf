@@ -5,7 +5,7 @@ import de.legrinu.Utils.MathUtils;
 import java.util.*;
 
 /**
- * Die Klasse "Area" modeliert ein Bereich.
+ * Die Klasse "Area" modelliert einen Bereich.
  */
 public class Area extends Groups{
 
@@ -15,7 +15,7 @@ public class Area extends Groups{
 
     /**
      *
-     * @param pAreaName Name des Breiches
+     * @param pAreaName Name des Bereiches
      */
     public Area(String pAreaName) {
         this.areaName = pAreaName;
@@ -23,8 +23,8 @@ public class Area extends Groups{
 
     /**
      *
-     * @param pAreaName Name des Breiches
-     * @param pDiscount Rabatt des Bereiches, als Dezemalzahl angegeben 10% Rabatt = 0.1
+     * @param pAreaName Name des Bereiches
+     * @param pDiscount Rabatt des Bereiches, als Dezimalzahl angegeben 10% Rabatt = 0.1
      */
     public Area(String pAreaName, double pDiscount){
         super(pDiscount);
@@ -33,9 +33,9 @@ public class Area extends Groups{
 
     /**
      *
-     * @param pAreaName Name des Breiches
+     * @param pAreaName Name des Bereiches
      * @param pStorageLocation Lagerort des Bereiches
-     * @param pDiscount Rabatt des Bereiches, als Dezemalzahl angegeben 10% Rabatt = 0.1
+     * @param pDiscount Rabatt des Bereiches, als Dezimalzahl angegeben 10% Rabatt = 0.1
      */
     public Area(String pAreaName,String pStorageLocation, double pDiscount){
         super(pDiscount);

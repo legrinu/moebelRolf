@@ -1,7 +1,7 @@
 package de.legrinu.classes;
 
 /**
- * Die Klasse "Category" modeliert ein Kategorie.
+ * Die Klasse "Category" modelliert eine Kategorie.
  */
 public class Category extends Groups{
 
@@ -18,7 +18,7 @@ public class Category extends Groups{
     /**
      *
      * @param pCategory Namen der Kategorie
-     * @param pDiscount Rabatt des Bereiches, als Dezemalzahl angegeben 10% Rabatt = 0.1
+     * @param pDiscount Rabatt des Bereiches, als Dezimalzahl angegeben 10% Rabatt = 0.1
      */
     public Category(String pCategory, double pDiscount){
         super(pDiscount);
@@ -26,7 +26,7 @@ public class Category extends Groups{
     }
 
     /**
-     * Es wird eine Referenz auf den Namen des Kategorie zurueckgegeben.
+     * Es wird eine Referenz auf den Namen der Kategorie zurueckgegeben.
      * @return Namen des Kategorie
      */
     public String getCategoryName() {
@@ -34,8 +34,8 @@ public class Category extends Groups{
     }
 
     /**
-     * Es wird der Name des Kategorie gesetzt.
-     * @param pNameCategory Name des Bereiches
+     * Es wird der Name der Kategorie gesetzt.
+     * @param pNameCategory Name der Kategorie
      */
     public void setCategoryName(String pNameCategory) {
         this.category = pNameCategory;
