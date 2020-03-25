@@ -188,7 +188,7 @@ public class HardwareStore {
 
     /**
      * Diese Methode referenziert den pHardwareStore zur hardwareStoreMap.
-     * @param pHardwareStore Neue HashMap<Integer, Furniture> fuer den Moebelmarkt
+     * @param pHardwareStore Neue HashMap(Integer, Furniture) fuer den Moebelmarkt
      */
     public void setHardwareStore(HashMap<Integer, Furniture> pHardwareStore) {
         HardwareStore.hardwareStoreMap = pHardwareStore;
