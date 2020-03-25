@@ -20,8 +20,8 @@ public class HardwareStore {
     private static String name;
 
     /**
-     * Ein Moeblemarkt wir mit eigenem Namen erzeugt.
-     * @param pName Den Name den der Moebelmarkt tragen soll.
+     *
+     * @param pName Name des Moebelmarktes
      */
     public HardwareStore(String pName){
         this.name = pName;
@@ -80,7 +80,7 @@ public class HardwareStore {
     }
 
     /**
-     * Ermittelt den Bereich mit der hoechsten Gesamtpreis aller Moebel
+     * Ermittelt den Bereich mit der hoechsten Gesamtpreis aller Moebel.
      * @return Bereich mit der hoechsten Gesamtpreis aller Moebel
      */
     public Area areaHighestTotalPrice(){
