@@ -2,7 +2,7 @@ package de.legrinu.classes;
 
 import de.legrinu.Utils.MathUtils;
 
-public class Furniture implements Comparable{
+public class Furniture{
 
     private String name;
     private Area area;
@@ -12,11 +12,11 @@ public class Furniture implements Comparable{
 
     /**
      *
-     * @param pName - The Name of the Furniture
-     * @param pArea - The Area of the Furniture (For the program to work this area needs to be added in the arraylist)
-     * @param pCategory - The Category of the Furniture (For the program to work this category needs to be added in the arraylist)
-     * @param pOriginalPrice - The Original Price (Without Discount) of the Furniture
-     * @param pStock - The Stock of the Furniture
+     * @param pName - Name des Moebelstuekes
+     * @param pArea - Bereich des Moebelstuekes
+     * @param pCategory - Kategorie des Moebelstuekes
+     * @param pOriginalPrice - Preis des Moebelstuekes ohne Rabatt
+     * @param pStock - Lagerbestand des Moebelstuekes
      */
     public Furniture(String pName, Area pArea, Category pCategory, double pOriginalPrice, int pStock){
         this.name = pName;
@@ -26,26 +26,45 @@ public class Furniture implements Comparable{
         this.stock = pStock;
     }
 
+    /**
+     * Es wird eine Referenz auf den Namen des Moebelstuekes zurueckgegeben.
+     * @return Name des Moebelstuekes
+     */
+    public String getName() {
+        return this.name;
+    }
 
+    /**
+     * Es wird eine Referenz auf den Bereich des Moebelstuekes zurueckgegeben.
+     * @return Bereich des Moebelstuekes
+     */
     public Area getArea(){
         return this.area;
     }
 
+    /**
+     * Es wird eine Referenz auf den Kategorie des Moebelstuekes zurueckgegeben.
+     * @return Kategorie des Moebelstuekes
+     */
     public Category getCategory(){
         return this.category;
     }
 
+    /**
+     * Es wird der Orginalpreis des Moebelstuekes ohne Rabatt zurueckgegeben.
+     * @return Orginalpreis des Moebelstuekes ohne Rabatt
+     */
     public double getOriginalPrice(){
         return this.originalPrice;
     }
 
     /**
-     * Returns the original price times the highest discount
-     * @return
+     * Es wird der Preis des Moebelstuekes mit Verrechnung des hoesten Rabatt zurueckgegeben.
+     * @return Preis des Moebelstuekes mit Verrechnung des hoesten Rabatt
      */
     public double getDiscountPrice(){
         double discountPrice = this.getOriginalPrice();
-
+        //Choose which discount is higher
         if(this.getArea().getDiscount() >= this.getCategory().getDiscount()){
             discountPrice = discountPrice * (1 - this.getArea().getDiscount());
         }else if(this.getArea().getDiscount() < this.getCategory().getDiscount()){
@@ -56,50 +75,71 @@ public class Furniture implements Comparable{
         return round;
     }
 
+    /**
+     * Es wird der Warenwert der gelagerten Moebelstueke mit Verrechnung des hoesten Rabatt zurueckgegeben.
+     * @return Warenwert der gelagerten Moebelstueke mit Verrechnung des hoesten Rabatt
+     */
     public double getDiscountStockPrice(){
         double discountStockPrice = this.getDiscountPrice() * this.getStock();
         double round = MathUtils.round(discountStockPrice, 2);
         return round;
     }
 
+    /**
+     * Es wird der Warenwert der gelagerten Moebelstueke ohne Rabatt zurueckgegeben.
+     * @return Warenwert der gelagerten Moebelstueke ohne Rabatt
+     */
     public double getOriginalStockPrice(){
         double stockPrice = this.getOriginalPrice() * this.getStock();
         double round = MathUtils.round(stockPrice, 2);
         return round;
     }
 
+    /**
+     * Es wird der Lagerbestand zurueckgegeben.
+     * @return Lagerbestand des Moebelstuekes
+     */
     public int getStock() {
         return stock;
     }
 
-    public void setStock(int stock) {
-        this.stock = stock;
+    /**
+     * Der Lagerbestand wird auf pStock angepasst.
+     * @param pStock Lagerbestand des Moebelstuekes
+     */
+    public void setStock(int pStock) {
+        this.stock = pStock;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    /**
+     * Der Name wird auf pName geandert.
+     * @param pName Neuer Name des Moebelstueckes
+     */
+    public void setName(String pName) {
+        this.name = pName;
     }
 
-    public void setArea(Area area) {
-        this.area = area;
+    /**
+     * Der Bereich wird auf pArea geaendert.
+     * @param pArea Neuer Bereich des Moebelstueckes
+     */
+    public void setArea(Area pArea) {
+        this.area = pArea;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    /**
+     * Die Kategorie wird auf pCategory geaendert.
+     * @param pCategory Neue Kategorie des Moebelstueckes
+     */
+    public void setCategory(Category pCategory) {
+        this.category = pCategory;
     }
 
-    public void setOriginalPrice(double price) {
-        this.originalPrice = price;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    //Used for sorting
-    @Override
-    public int compareTo(Object o) {
-        Furniture other = (Furniture) o;
-        return Double.compare(this.getDiscountPrice(),other.getDiscountPrice());
+    /**
+     * Der Orginalpreis vor Rabatt wird auf pPrice geaendert.
+     * @param pPrice Neuer Orginalpreis des Moebelstueckes
+     */
+    public void setOriginalPrice(double pPrice) {
+        this.originalPrice = pPrice;
     }
 }

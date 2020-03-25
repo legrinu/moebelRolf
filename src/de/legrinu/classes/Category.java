@@ -1,23 +1,43 @@
 package de.legrinu.classes;
 
+/**
+ * Die Klasse "Category" modeliert ein Kategorie.
+ */
 public class Category extends Groups{
 
     private String category;
 
-    public Category(String pCategory) {
-        this.category = pCategory;
+    /**
+     *
+     * @param pNameCategory Namen der Kategorie
+     */
+    public Category(String pNameCategory) {
+        this.category = pNameCategory;
     }
 
+    /**
+     *
+     * @param pCategory Namen der Kategorie
+     * @param pDiscount Rabatt des Bereiches, als Dezemalzahl angegeben -> 10% Rabatt = 0.1
+     */
     public Category(String pCategory, double pDiscount){
         super(pDiscount);
         this.category = pCategory;
     }
 
+    /**
+     * Es wird eine Referenz auf den Namen des Kategorie zurueckgegeben.
+     * @return Namen des Kategorie
+     */
     public String getCategoryName() {
         return category;
     }
 
-    public void setCategoryName(String category) {
-        this.category = category;
+    /**
+     * Es wird der Name des Kategorie gesetzt.
+     * @param pNameCategory Name des Bereiches
+     */
+    public void setCategoryName(String pNameCategory) {
+        this.category = pNameCategory;
     }
 }
