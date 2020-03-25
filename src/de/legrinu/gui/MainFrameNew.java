@@ -60,10 +60,10 @@ public class MainFrameNew extends JFrame {
         String selectedItemText = (String) product_list.getSelectedValue();
 
         if(selectedIndex > 0) {
+            for (Map.Entry<Integer, Furniture> entry : Main.getMainStore().getHardwareStoreMap().entrySet()) {
+                Furniture selectedFurniture = entry.getValue();
 
-            for(int i = 1; i < Main.getMainStore().getHardwareStoreMap().size()+1; i++) {
-                Furniture selectedFurniture = Main.getMainStore().getHardwareStoreMap().get(i);
-
+                //Selecet Furniture
                 if(selectedFurniture.getName().contains(selectedItemText)) {
                     product_name.setText(selectedFurniture.getName());
                     product_area.setText(selectedFurniture.getArea().getAreaName() + " | " + selectedFurniture.getCategory().getCategoryName());
@@ -76,6 +76,7 @@ public class MainFrameNew extends JFrame {
                 }
             }
         }else{
+            //TODO: Unsibel right side
             product_name.setText("");
             product_area.setText("");
             op_changer.setText("");
@@ -84,7 +85,7 @@ public class MainFrameNew extends JFrame {
         }
     }
 
-    private void CategoryAreaActionPerformed(ActionEvent e) { //TODO: SMall fixes for beauty
+    private void CategoryAreaActionPerformed(ActionEvent e) {
         listModel.clear();
 
         ArrayList<Component> selectedItemsList = new ArrayList<>();
@@ -106,16 +107,17 @@ public class MainFrameNew extends JFrame {
         int selectedArea = 0;
         int selectedCategory = 0;
 
+        //Selecet Area/ Categorie/ Item
         for(Object obj : Area.getMenuComponents()){
             JCheckBoxMenuItem checkBoxMenuItem = (JCheckBoxMenuItem) obj;
-            if(checkBoxMenuItem.getState() == true){
+            if(checkBoxMenuItem.getState()){
                 selectedArea++;
             }
         }
 
         for(Object obj : Category.getMenuComponents()){
             JCheckBoxMenuItem checkBoxMenuItem = (JCheckBoxMenuItem) obj;
-            if(checkBoxMenuItem.getState() == true){
+            if(checkBoxMenuItem.getState()){
                 selectedCategory++;
             }
         }
@@ -126,7 +128,7 @@ public class MainFrameNew extends JFrame {
             //Area Check
             for(Area areaToFind : Main.getMainStore().getAreaList()){
                 if(areaToFind.getAreaName().contains(checkBox.getText())){
-                    if(checkBox.getState() == true){
+                    if(checkBox.getState()){
                         //Part 1: Show Value
                         totalAreaValue += Main.getMainStore().totalAreaPrice(areaToFind);
 
@@ -145,7 +147,7 @@ public class MainFrameNew extends JFrame {
             //Category Check
             for(Category categoryToFind : Main.getMainStore().getCategoryList()){
                 if(categoryToFind.getCategoryName().contains(checkBox.getText())){
-                    if(checkBox.getState() == true){
+                    if(checkBox.getState()){
                         //Part 1: Show Value
                         totalCategoryValue += Main.getMainStore().totalCategoryPrice(categoryToFind);
 
@@ -162,6 +164,7 @@ public class MainFrameNew extends JFrame {
             }
         }
 
+        //If more than one selected
         if(selectedArea >= 1 && selectedCategory >= 1) {
 
             //Part 1
@@ -226,6 +229,7 @@ public class MainFrameNew extends JFrame {
         }
     }
 
+    //stockStateChanged
     private void current_stockStateChanged(ChangeEvent e) {
         int currentValue = (int) current_stock.getValue();
         currentActiveFurniture.setStock(currentValue);
@@ -239,6 +243,7 @@ public class MainFrameNew extends JFrame {
         }
     }
 
+    //exit and save
     private void mainWindowClosing(WindowEvent e) {
         Main.getFileManager().saveFiles();
     }
@@ -292,20 +297,17 @@ public class MainFrameNew extends JFrame {
 
     private void cart_valueActionPerformed(ActionEvent e) {
         Double input = Double.parseDouble(cart_value.getText());
-
-        if(input >= 100 && input <= 600) {
-            listModel.clear();
-            String[] suggestedCart = Main.getMainStore().suggestionShoppingCartArray(input);
-
-            for (int i = 0; i < suggestedCart.length - 1; i++) {
-                listModel.addElement(suggestedCart[i]);
-            }
-            product_list.updateUI();
-
-            remaining_value.setText(suggestedCart[suggestedCart.length - 1]);
-            remaining_value_dialog.setIconImage(new ImageIcon("C:\\Users\\legri\\Documents\\BauMarkt\\ressources\\BAC_transparent.png").getImage());
-            remaining_value_dialog.setVisible(true);
+        Object[] suggestedCart = Main.getMainStore().suggestionShoppingCart(input);
+        listModel.clear();
+        for (Furniture furniture: (ArrayList<Furniture>)suggestedCart[0]) {
+            listModel.addElement(furniture.getName());
         }
+
+        product_list.updateUI();
+
+        remaining_value.setText("Remaining price: " + MathUtils.round((Double) suggestedCart[1], 2));
+        remaining_value_dialog.setIconImage(new ImageIcon("C:\\Users\\legri\\Documents\\BauMarkt\\ressources\\BAC_transparent.png").getImage());
+        remaining_value_dialog.setVisible(true);
     }
 
     private void suggested_cartActionPerformed(ActionEvent e) {
@@ -453,8 +455,8 @@ public class MainFrameNew extends JFrame {
     private void new_furniture_create_buttonActionPerformed(ActionEvent e) {
         String name = new_furniture_name.getText();
         Double price = Double.parseDouble(new_furniture_price.getText());
-        Area area = Main.getMainStore().getAreaByString((String) new_furniture_area_combobox.getSelectedItem());
-        Category category = Main.getMainStore().getCategoryByString((String) new_furniture_category_combobox.getSelectedItem());
+        Area area = Main.getMainStore().getAreaFromString((String) new_furniture_area_combobox.getSelectedItem());
+        Category category = Main.getMainStore().getCategoryFromString((String) new_furniture_category_combobox.getSelectedItem());
         int stock = Integer.valueOf(new_furniture_stock.getText());
 
         HashMap<Integer, Furniture> furnitureHashMap = Main.getMainStore().getHardwareStoreMap();
