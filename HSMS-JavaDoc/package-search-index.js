@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"de.legrinu"},{"l":"de.legrinu.classes"},{"l":"de.legrinu.datamanagement"},{"l":"de.legrinu.Utils"}]
