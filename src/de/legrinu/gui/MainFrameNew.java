@@ -291,16 +291,16 @@ public class MainFrameNew extends JFrame {
     }
 
     private void cart_valueActionPerformed(ActionEvent e) {
-        listModel.clear();
         Double input = Double.parseDouble(cart_value.getText());
-        String[] suggestedCart = Main.getMainStore().suggestionShoppingCartArray(input);
-
-        for(int i = 0; i < suggestedCart.length - 1; i++){
-            listModel.addElement(suggestedCart[i]);
+        Object[] suggestedCart = Main.getMainStore().suggestionShoppingCart(input);
+        listModel.clear();
+        for (Furniture furniture: (ArrayList<Furniture>)suggestedCart[0]) {
+            listModel.addElement(furniture.getName());
         }
+
         product_list.updateUI();
 
-        remaining_value.setText(suggestedCart[suggestedCart.length-1]);
+        remaining_value.setText("Remaining price: " + MathUtils.round((Double) suggestedCart[1], 2));
         remaining_value_dialog.setIconImage(new ImageIcon("C:\\Users\\legri\\Documents\\BauMarkt\\ressources\\BAC_transparent.png").getImage());
         remaining_value_dialog.setVisible(true);
     }
@@ -450,8 +450,8 @@ public class MainFrameNew extends JFrame {
     private void new_furniture_create_buttonActionPerformed(ActionEvent e) {
         String name = new_furniture_name.getText();
         Double price = Double.parseDouble(new_furniture_price.getText());
-        Area area = Main.getMainStore().getAreaByString((String) new_furniture_area_combobox.getSelectedItem());
-        Category category = Main.getMainStore().getCategoryByString((String) new_furniture_category_combobox.getSelectedItem());
+        Area area = Main.getMainStore().getAreaFromString((String) new_furniture_area_combobox.getSelectedItem());
+        Category category = Main.getMainStore().getCategoryFromString((String) new_furniture_category_combobox.getSelectedItem());
         int stock = Integer.valueOf(new_furniture_stock.getText());
 
         HashMap<Integer, Furniture> furnitureHashMap = Main.getMainStore().getHardwareStoreMap();
