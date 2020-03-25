@@ -98,28 +98,6 @@ public class HardwareStore {
     }
 
     /**
-     * Diese Methode gibt das Ergebnis der Methode "suggestionShoppingCart()" als String Array zurueck.
-     * @param pShoppingCartValue Warenwert des vorzuschlagenden Warenkorb siehe "suggestionShoppingCart()"
-     * @return Ergebnis der Methode "suggestionShoppingCart()" als String Array
-     */
-    //TODO: Move to Mainframe
-    public String[] suggestionShoppingCartArray(double pShoppingCartValue){
-        Object[] suggestedArray = suggestionShoppingCart(pShoppingCartValue);
-        ArrayList<Object> suggestionShoppingCartObject = (ArrayList<Object>) suggestedArray[0];
-        ArrayList<Furniture> suggestionShoppingCartFurniture = new ArrayList<>();
-        String[] returnValue = new String[suggestionShoppingCartObject.size()+1];
-        //Cast Object ArrayList to Furniture ArrayList
-        for(int i = 0; i < suggestionShoppingCartObject.size(); i++){
-            Furniture furniture = (Furniture) suggestionShoppingCartObject.get(i);
-            returnValue[i] = furniture.getName();
-        }
-
-        returnValue[returnValue.length - 1] = "Remaining price: " + MathUtils.round((Double) suggestedArray[1], 2);
-
-        return returnValue;
-    }
-
-    /**
      * Diese Methode erstellt auf Grundlage "pShoppingCartValue" eine Liste von Moeblen, die man für diesen Betrag und verfuegbar(auf Lager)sind, erhalten kann.
      * @param pShoppingCartValue Betrag fuer die Erstellung eine Liste von Moeblen
      * @return Array[0] - ArrayListe mit den vorzuschlagenden Moeblen, Array[1] - Differenz(Restguthaben) von "pShoppingCartValue" und dem Warenwert der vorzuschlagenden Liste
@@ -285,7 +263,7 @@ public class HardwareStore {
      * @param pInput Name des Bereiches als String
      * @return Bereich, die so heisst wie pName
      */
-    public Area getAreaByString(String pInput){
+    public Area getAreaFromString(String pInput){
         //Every area
         for(Area area : getAreaList()){
             //If Name equal like AreaName
@@ -301,7 +279,7 @@ public class HardwareStore {
      * @param pInput Name des Bereiches als String
      * @return Kategorie, die so heisst wie pName
      */
-    public Category getCategoryByString(String pInput){
+    public Category getCategoryFromString(String pInput){
         //Every area
         for(Category category : getCategoryList()){
             //If Name equal like CategoryName
